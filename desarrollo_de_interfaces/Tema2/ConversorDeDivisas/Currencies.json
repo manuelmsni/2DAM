@@ -1,0 +1,17 @@
+[
+  {
+    "Name": "Dolar",
+    "Factor": 1,
+    "Symbol": "$"
+  },
+  {
+    "Name": "Euro",
+    "Factor": 1.05,
+    "Symbol": "€"
+  },
+  {
+    "Name": "Libra",
+    "Factor": 1.30,
+    "Symbol": "£"
+  }
+]

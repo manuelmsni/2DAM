@@ -1,0 +1,22 @@
+ El volumen de la unidad D es HDD (Datos)
+ El n£mero de serie del volumen es: 7AAD-6956
+
+ Directorio de D:\Proyectos\2§Dam\DAM2_ProgramacionDeServiciosYProcesos\Tema2\PSP_UD02_ACT1
+
+17/11/2023  08:14    <DIR>          .
+17/11/2023  08:14    <DIR>          ..
+17/11/2023  08:35    <DIR>          build
+15/11/2023  04:25             3.624 build.xml
+17/11/2023  08:14    <DIR>          dist
+17/11/2023  08:27                61 instrucciones.txt
+15/11/2023  04:25                85 manifest.mf
+15/11/2023  04:41    <DIR>          nbproject
+15/11/2023  04:25             5.615 Output.jar
+17/11/2023  08:31               967 outputEj3.txt
+17/11/2023  07:39             1.921 procesoNieto.jar
+17/11/2023  07:39             3.360 procesoPadre.jar
+15/11/2023  04:25    <DIR>          src
+17/11/2023  07:55             6.806 SVCHOST.TXT
+15/11/2023  04:52    <DIR>          test
+               8 archivos         22.439 bytes
+               7 dirs  458.882.408.448 bytes libres

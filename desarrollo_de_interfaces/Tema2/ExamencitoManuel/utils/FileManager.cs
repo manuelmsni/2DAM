@@ -1,0 +1,75 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ExamencitoManuel.utils
+{
+    public class FileManager
+    {
+        public static int? SaveFile(string path, string text, bool append)
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(path, append))
+                {
+                    sw.Write(text);
+                }
+                MessageBox.Show($"Contenido guardado en el archivo: {path}", "Guardado correctamente", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return text.GetHashCode();
+            }
+            catch (Exception ex)
+            {
+                ErrorManager.Register(ex);
+            }
+            return null;
+        }
+        public static string ReadFile(string path)
+        {
+            try
+            {
+                using (StreamReader sr = new StreamReader(path))
+                {
+                    return sr.ReadToEnd();
+                }
+            }
+            catch (Exception ex)
+            {
+                ErrorManager.Register(ex);
+            }
+            return null;
+        }
+        static string[] ReadLines(string path)
+        {
+            if (File.Exists(path))
+            {
+                return File.ReadAllLines(path);
+            }
+            else
+            {
+                MessageManager.ShowMessaje("No encontrado", $"No se a encontrado el archivo {path}");
+                return null;
+            }
+        }
+        public static void DeleteFile(string path)
+        {
+            if (!MessageManager.AskForConfirmation($"Se eliminará el archivo: {path} \n¿Deseas borrarlo?  :(")) return;
+            File.Delete(path);
+            MessageManager.ShowMessaje("Eliminado correctamente", $"Se ha eliminado el archivo {path}");
+        }
+        /// <summary>
+        /// Crea un archivo en la ruta especificada dentro del directorio base si el archivo no existe.
+        /// </summary>
+        /// <param name="nombre">Nombre del archivo a crear.</param>
+        public static bool CreateFile(string ruta)
+        {
+            if (ruta == null) return false;
+            if (ruta == string.Empty || File.Exists(ruta) || Directory.Exists(ruta)) return false;
+            DirectoryManager.CreateDirectory(Path.GetDirectoryName(ruta));
+            FileStream fs;
+            if ((fs = File.Create(ruta)) != null) fs.Close();
+            return true;
+        }
+    }
+}

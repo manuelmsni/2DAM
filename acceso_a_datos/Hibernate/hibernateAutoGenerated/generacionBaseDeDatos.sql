@@ -1,0 +1,24 @@
+DROP DATABASE mam;
+CREATE DATABASE mam;
+USE mam;
+
+CREATE TABLE person (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	name CHAR(50) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE book (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	name CHAR(50) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE person_book (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	id_person INT(11) NOT NULL,
+	id_book INT(11) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (id_person) REFERENCES person(id),
+   FOREIGN KEY (id_book) REFERENCES book(id)
+);

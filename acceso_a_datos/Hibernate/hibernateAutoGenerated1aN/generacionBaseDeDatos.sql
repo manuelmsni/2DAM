@@ -1,0 +1,17 @@
+DROP DATABASE IF EXISTS uno_a_n;
+CREATE DATABASE uno_a_n;
+USE uno_a_n;
+
+CREATE TABLE book (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	name CHAR(50) NOT NULL,
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE person (
+	id INT(11) NOT NULL AUTO_INCREMENT,
+	name CHAR(50) NOT NULL,
+	id_book INT(11) NOT NULL,
+	PRIMARY KEY (id),
+	FOREIGN KEY (id_book) REFERENCES book(id)
+);

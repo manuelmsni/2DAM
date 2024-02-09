@@ -1,0 +1,14 @@
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\GestorDeTareas.GeneratedMSBuildEditorConfig.editorconfig
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\GestorDeTareas.AssemblyInfoInputs.cache
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\GestorDeTareas.AssemblyInfo.cs
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\GestorDeTareas.csproj.CoreCompileInputs.cache
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\bin\Debug\net6.0\GestorDeTareas.exe
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\bin\Debug\net6.0\GestorDeTareas.deps.json
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\bin\Debug\net6.0\GestorDeTareas.runtimeconfig.json
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\bin\Debug\net6.0\GestorDeTareas.dll
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\bin\Debug\net6.0\GestorDeTareas.pdb
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\GestorDeTareas.dll
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\refint\GestorDeTareas.dll
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\GestorDeTareas.pdb
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\GestorDeTareas.genruntimeconfig.cache
+D:\Proyectos\C#\DAM2_DesarrolloDeInterfaces\Tema2\GestorDeTareas\obj\Debug\net6.0\ref\GestorDeTareas.dll

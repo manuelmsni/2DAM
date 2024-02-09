@@ -1,0 +1,4 @@
+cmd /c echo Hola Mundo
+mondongo
+cmd /c dir
+cmd /c java -version
