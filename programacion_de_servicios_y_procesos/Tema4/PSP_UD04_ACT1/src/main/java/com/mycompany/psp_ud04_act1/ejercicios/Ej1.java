@@ -21,11 +21,13 @@ import java.util.logging.Logger;
 public class Ej1 {
     private static final Logger log = Logger.getLogger(Ej1.class.getName());
     public Ej1(Vista v){
-        
         try{
             InetAddress dir = InetAddress.getByName(v.solicitaString("Escribe el nombre del host"));
-            v.imprime("Canonical: " + dir.getCanonicalHostName());
-            
+            v.imprime("HostName: " + dir.getHostName());
+            v.imprime("CanonicalHostName: " + dir.getCanonicalHostName());
+            v.imprime("HostAddress: " + dir.getHostAddress());
+            v.imprime("¿Es local?: " + (dir.isSiteLocalAddress() ? "Si" : "No"));
+            v.imprime("¿Es una dirección de bucle local?: " + (dir.isLoopbackAddress() ? "Si" : "No"));
         } catch (UnknownHostException uhe) {
             log.warning("" + uhe.getMessage());
         }

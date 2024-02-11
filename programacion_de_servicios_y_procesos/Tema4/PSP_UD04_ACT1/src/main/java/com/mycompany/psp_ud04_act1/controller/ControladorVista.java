@@ -5,6 +5,13 @@
 package com.mycompany.psp_ud04_act1.controller;
 
 import com.mycompany.psp_ud04_act1.ejercicios.Ej1;
+import com.mycompany.psp_ud04_act1.ejercicios.Ej2;
+import com.mycompany.psp_ud04_act1.ejercicios.Ej3;
+import com.mycompany.psp_ud04_act1.ejercicios.Ej4;
+import com.mycompany.psp_ud04_act1.ejercicios.Ej5;
+import com.mycompany.psp_ud04_act1.ejercicios.Ej6;
+import com.mycompany.psp_ud04_act1.ejercicios.Ej7;
+import com.mycompany.psp_ud04_act1.ejercicios.Ej8;
 import com.mycompany.psp_ud04_act1.view.Vista;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -49,17 +56,34 @@ public class ControladorVista {
     }
     
     private void router(int opcion){
+        v.imprime("\n----- Ejercicio" + opcion + " ------");
         switch (opcion){
             case 1:
                 new Ej1(v);
                 break;
             case 2:
-                
+                new Ej2(v);
                 break;
             case 3:
-                
+                new Ej3(v);
+                break;
+            case 4:
+                new Ej4(v);
+                break;
+            case 5:
+                new Ej5(v);
+                break;
+            case 6:
+                new Ej6(v);
+                break;
+            case 7:
+                new Ej7(v);
+                break;
+            case 8:
+                new Ej8(v);
                 break;
         }
+        v.imprime("----------------------\n");
     }
 
 }
