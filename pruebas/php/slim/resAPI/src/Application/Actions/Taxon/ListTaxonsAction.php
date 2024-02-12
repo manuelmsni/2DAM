@@ -6,7 +6,7 @@ namespace App\Application\Actions\Taxon;
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-class ListTaxonAction extends TaxonAction
+class ListTaxonsAction extends TaxonAction
 {
     /**
      * {@inheritdoc}

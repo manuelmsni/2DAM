@@ -10,29 +10,59 @@ use JsonSerializable;
 class Key implements JsonSerializable
 {
     private ?int $id;
-    private string $author;
+    private ?int $forkedFromKeyId;
+    private int $authorId;
+    private string $title;
     private int $creationDate;
     private int $lastModified;
-    private Taxon $taxon;
+    private Taxon $startTaxon;
+    /**
+     * @var Taxon[]
+     */
+    private array $endpoints = [];
 
-    public function __construct(?int $id, string $author, int $creationDate, int $lastModified, Taxon $taxon)
-    {
+    public function __construct(
+        ?int $id,
+        ?int $forkedFromKeyId,
+        int $authorId,
+        string $title,
+        int $creationDate,
+        int $lastModified,
+        Taxon $startTaxon
+    ) {
         $this->id = $id;
-        $this->author = strtolower($author);
+        $this->forkedFromKeyId = $forkedFromKeyId;
+        $this->authorId = $authorId;
+        $this->title = $title;
         $this->creationDate = $creationDate;
         $this->lastModified = $lastModified;
-        $this->taxon = $taxon;
+        $this->startTaxon = $startTaxon;
+    }
+
+    public function addEndpoint(Taxon $endpoint): void
+    {
+        $this->endpoints[] = $endpoint;
     }
 
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
-        return [
+        $data = [
             'id' => $this->id,
-            'author' => $this->author,
+            'authorId' => $this->authorId,
+            'title' => $this->title,
             'creationDate' => $this->creationDate,
             'lastModified' => $this->lastModified,
-            'taxon' => $this->taxon
+            'startTaxon' => $this->startTaxon
         ];
+        if ($this->forkedFromKeyId !== null) {
+            $data['forkedFromKeyId'] = $this->forkedFromKeyId;
+        }
+        if (count($this->endpoints) > 0) {
+            $data['endpoints'] = array_map(function ($endpoint) {
+                return $endpoint->jsonSerialize();
+            }, $this->endpoints);
+        }
+        return $data;
     }
 }

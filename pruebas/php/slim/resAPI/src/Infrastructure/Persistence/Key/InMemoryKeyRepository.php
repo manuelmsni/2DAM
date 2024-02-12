@@ -20,8 +20,9 @@ class InMemoryKeyRepository implements KeyRepository
      */
     public function __construct(array $keys = null)
     {
-        $this->keys = $keyss ?? [
-            1 => new Key(1, 'bill.gates', 'Bill', 'Gates')
+        $this->keys = $keys ?? [
+            1 => new Key(1, null, 2, "Clave 1", 0, 0, null),
+            2 => new Key(2, 1, 2, "Clave 2", 0, 0, null)
         ];
     }
 

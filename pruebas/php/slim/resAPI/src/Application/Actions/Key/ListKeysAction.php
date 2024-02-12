@@ -2,20 +2,19 @@
 
 namespace App\Application\Actions\Key;
 
-use App\Application\Actions\Action;
-use App\Domain\User\UserRepository;
 use Psr\Http\Message\ResponseInterface as Response;
-use Psr\Log\LoggerInterface;
 
-abstract class ListKeysAction extends Action
+abstract class ListKeysAction extends KeyAction
 {
-
     /**
      * @inheritDoc
      */
-    public function __construct(LoggerInterface $logger, UserRepository $userRepository)
+    protected function action(): Response
     {
-        parent::__construct($logger);
-        $this->userRepository = $userRepository;
+        $keys = $this->keyRepository->findAll();
+
+        $this->logger->info("Taxon list was viewed.");
+
+        return $this->respondWithData($keys);
     }
 }

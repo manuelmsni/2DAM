@@ -24,12 +24,11 @@ class InMemoryTaxonRepository implements TaxonRepository
         if ($taxons === null) {
             $taxons = [
                 1 => new Taxon(1, 'Hymenoptera', TaxonCategory::Ordo, null),
-                2 => new Taxon(2, 'Apidae', TaxonCategory::Familia, null), // Temporarily set to null
-                3 => new Taxon(3, 'Apis', TaxonCategory::Genus, null), // Temporarily set to null
-                4 => new Taxon(4, 'Mellifera', TaxonCategory::Species, null) // Temporarily set to null
+                2 => new Taxon(2, 'Apidae', TaxonCategory::Familia, null),
+                3 => new Taxon(3, 'Apis', TaxonCategory::Genus, null),
+                4 => new Taxon(4, 'Mellifera', TaxonCategory::Species, null)
             ];
 
-            // Set parents after all taxons are instantiated to avoid circular reference issues
             $taxons[2]->setParent($taxons[1]);
             $taxons[3]->setParent($taxons[2]);
             $taxons[4]->setParent($taxons[3]);
