@@ -3,6 +3,8 @@
 declare(strict_types=1);
 
 use App\Application\Settings\SettingsInterface;
+use App\Domain\Taxon\TaxonRepository;
+use App\Infrastructure\Persistence\Taxon\InMemoryTaxonRepository;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;

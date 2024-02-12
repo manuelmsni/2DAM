@@ -2,6 +2,7 @@
 
 declare(strict_types=1);
 
+use App\Application\Actions\Taxon\ListTaxonAction;
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -20,9 +21,8 @@ return function (App $app) {
         return $response;
     });
 
-    $app->get('/keys', function (Request $request, Response $response) {
-        $response->getBody()->write('Hello world!');
-        return $response;
+    $app->group('/taxons', function (Group $group) {
+        $group->get('', ListTaxonAction::class);
     });
 
     $app->group('/users', function (Group $group) {

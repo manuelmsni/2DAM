@@ -9,12 +9,23 @@ use JsonSerializable;
 class Taxon implements JsonSerializable
 {
     private ?int $id;
+    private string $name;
+    private TaxonCategory $category;
     private ?Taxon $father = null;
+    /**
+     * @var Taxon[]
+     */
     private array $children = [];
 
-    public function __construct(?int $id, ?Taxon $father = null)
+    public function __construct(?int $id, string $name, TaxonCategory $category, ?Taxon $father = null)
     {
         $this->id = $id;
+        $this->name = $name;
+        $this->category = $category;
+        $this->father = $father;
+    }
+    public function setParent(Taxon $father): void
+    {
         $this->father = $father;
     }
     public function addChild(Taxon $child): void
@@ -31,8 +42,13 @@ class Taxon implements JsonSerializable
 
         $data = [
             'id' => $this->id,
-            'father' => $fatherId,
+            'name' => $this->name,
+            'category' => $this->category
         ];
+
+        if ($fatherId !== null) {
+            $data['father'] = $fatherId;
+        }
 
         if (count($this->children) > 0) {
             $data['children'] = $serializedChildren;
