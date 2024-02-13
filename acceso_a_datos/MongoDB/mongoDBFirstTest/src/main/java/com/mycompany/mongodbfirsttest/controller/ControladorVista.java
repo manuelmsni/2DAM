@@ -5,8 +5,8 @@
 package com.mycompany.mongodbfirsttest.controller;
 
 import com.mycompany.mongodbfirsttest.MongoDBFirstTest;
-import com.mycompany.mongodbfirsttest.dao.UsuarioDAO;
-import com.mycompany.mongodbfirsttest.model.Usuario;
+import com.mycompany.mongodbfirsttest.dao.AnimalDAO;
+import com.mycompany.mongodbfirsttest.model.Animal;
 import com.mycompany.mongodbfirsttest.view.Vista;
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -55,61 +55,61 @@ public class ControladorVista {
     private void router(int opcion){
         switch (opcion){
             case 1:
-                imprimeUsuarios();
+                imprimeAnimales();
                 break;
             case 2:
-                crearUsuario();
+                crearAnimal();
                 break;
             case 3:
-                eliminarUsuario();
+                eliminarAnimal();
                 break;
             case 4:
-                actualizarUsuario();
+                actualizarAnimal();
                 break;
             case 5:
-                imprimeUsuarioPorNombre();
+                imprimeAnimalPorNombre();
                 break;
             case 6:
-                imprimeUsuarioPorCorreo();
+                imprimeAnimalPorEspecie();
                 break;
         }
     }
     
-    private void imprimeUsuarios() {
-        v.imprime(Usuario.formatearUsuarios(UsuarioDAO.getInstance().obtenerTodos()));
+    private void imprimeAnimales() {
+        v.imprime(Animal.formatearUsuarios(AnimalDAO.getInstance().obtenerTodos()));
     }
 
-    private void crearUsuario() {
-        UsuarioDAO.getInstance().crear(new Usuario(
+    private void crearAnimal() {
+        AnimalDAO.getInstance().crear(new Animal(
                 v.solicitaString("Introduce el nombre:"),
-                v.solicitaCorreo("Introduce el correo:")
+                v.solicitaString("Introduce la especie:")
         ));
     }
 
-    private void eliminarUsuario() {
-        UsuarioDAO.getInstance().borrar(v.solicitaString("Introduce el id:"));
+    private void eliminarAnimal() {
+        AnimalDAO.getInstance().borrar(v.solicitaString("Introduce el id:"));
     }
 
-    private void actualizarUsuario() {
+    private void actualizarAnimal() {
         boolean actualizado = false;
-        Usuario u = UsuarioDAO.getInstance().obtener(v.solicitaString("Introduce el id:"));
+        Animal u = AnimalDAO.getInstance().obtener(v.solicitaString("Introduce el id:"));
         if(v.solicitaConfirmacion("¿Deseas cambiar el nombre?")){
             u.setNombre(v.solicitaString("Introduce el nuevo nombre:"));
             actualizado = true;
         }
-        if(v.solicitaConfirmacion("¿Deseas cambiar el correo?")){
-            u.setCorreo(v.solicitaCorreo("Introduce el nuevo correo:"));
+        if(v.solicitaConfirmacion("¿Deseas cambiar la especie?")){
+            u.setEspecie(v.solicitaString("Introduce la nueva especie:"));
             actualizado = true;
         }
-        if(actualizado) UsuarioDAO.getInstance().actualizar(u);
+        if(actualizado) AnimalDAO.getInstance().actualizar(u);
     }
     
-    private void imprimeUsuarioPorNombre() {
-        v.imprime(UsuarioDAO.getInstance().obtenerPorNombre(v.solicitaString("Introduce el nombre:")).toString());
+    private void imprimeAnimalPorNombre() {
+        v.imprime(AnimalDAO.getInstance().obtenerPorNombre(v.solicitaString("Introduce el nombre:")).toString());
     }
 
-    private void imprimeUsuarioPorCorreo() {
-        v.imprime(UsuarioDAO.getInstance().obtenerPorCorreo(v.solicitaCorreo("Introduce el correo:")).toString());
+    private void imprimeAnimalPorEspecie() {
+        v.imprime(AnimalDAO.getInstance().obtenerPorEspecie(v.solicitaString("Introduce la especie:")).toString());
     }
 
 }

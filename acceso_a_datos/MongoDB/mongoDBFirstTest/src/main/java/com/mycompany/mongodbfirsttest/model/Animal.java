@@ -4,37 +4,37 @@
  */
 package com.mycompany.mongodbfirsttest.model;
 
-import com.mycompany.mongodbfirsttest.dao.UsuarioDAO;
+import com.mycompany.mongodbfirsttest.dao.AnimalDAO;
 import java.util.List;
 
 /**
  *
  * @author manuelmsni
  */
-public class Usuario {
+public class Animal {
     String id;
     String nombre;
-    String correo;
+    String especie;
 
-    public Usuario() {
+    public Animal() {
     }
 
-    public Usuario(String nombre, String correo) {
+    public Animal(String nombre, String especie) {
         this.nombre = nombre;
-        this.correo = correo;
+        this.especie = especie;
     }
 
-    public Usuario(String id, String nombre, String correo) {
+    public Animal(String id, String nombre, String especie) {
         this.id = id;
         this.nombre = nombre;
-        this.correo = correo;
+        this.especie = especie;
     }
 
     public String getId() {
         return id;
     }
 
-    public Usuario setId(String id) {
+    public Animal setId(String id) {
         this.id = id;
         return this;
     }
@@ -43,36 +43,36 @@ public class Usuario {
         return nombre;
     }
 
-    public Usuario setNombre(String nombre) {
+    public Animal setNombre(String nombre) {
         this.nombre = nombre;
         return this;
     }
 
-    public String getCorreo() {
-        return correo;
+    public String getEspecie() {
+        return especie;
     }
 
-    public Usuario setCorreo(String correo) {
-        this.correo = correo;
+    public Animal setEspecie(String especie) {
+        this.especie = especie;
         return this;
     }
 
     @Override
     public String toString() {
-        return "{\"id\":\"" + id + "\", \"nombre\":\"" + nombre + "\", \"correo\":\"" + correo + "\"}";
+        return "{\"id\":\"" + id + "\", \"nombre\":\"" + nombre + "\", \"especie\":\"" + especie + "\"}";
     }
     
-    public static String formatearUsuarios(List<Usuario> usuarios){
+    public static String formatearUsuarios(List<Animal> animales){
         String ls = System.getProperty("line.separator");
         StringBuilder sb = new StringBuilder();
         sb.append("{");
         sb.append(ls);
-        sb.append("\t\"usuarios\" : [");
-        for(int i = 0; i < usuarios.size(); i++){
+        sb.append("\t\"animales\" : [");
+        for(int i = 0; i < animales.size(); i++){
             sb.append(ls);
             sb.append("\t\t");
-            sb.append(usuarios.get(i).toString());
-            if(i!=usuarios.size()-1){
+            sb.append(animales.get(i).toString());
+            if(i!=animales.size()-1){
                 sb.append(",");
             }else{
                 sb.append(ls);

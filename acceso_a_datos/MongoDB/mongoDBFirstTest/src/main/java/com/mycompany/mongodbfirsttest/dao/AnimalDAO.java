@@ -4,7 +4,7 @@
  */
 package com.mycompany.mongodbfirsttest.dao;
 
-import com.mycompany.mongodbfirsttest.model.Usuario;
+import com.mycompany.mongodbfirsttest.model.Animal;
 import com.mycompany.mongodbfirsttest.persistence.PersistenceMongoDB;
 import com.mycompany.mongodbfirsttest.util.Constants;
 import java.util.ArrayList;
@@ -17,12 +17,12 @@ import org.bson.Document;
  *
  * @author manuelmsni
  */
-public class UsuarioDAO implements DAO<Usuario> {
+public class AnimalDAO implements DAO<Animal> {
     
-    private static UsuarioDAO instance;
+    private static AnimalDAO instance;
     
-    public static UsuarioDAO getInstance(){
-        if(instance == null) instance = new UsuarioDAO();
+    public static AnimalDAO getInstance(){
+        if(instance == null) instance = new AnimalDAO();
         return instance;
     }
     
@@ -31,7 +31,7 @@ public class UsuarioDAO implements DAO<Usuario> {
     private String table;
     PersistenceMongoDB persistence;
     
-    private UsuarioDAO(){
+    private AnimalDAO(){
         uri = Constants.DB_URI;
         database = Constants.USER_DATABASE;
         table = Constants.USER_TABLE;
@@ -43,42 +43,42 @@ public class UsuarioDAO implements DAO<Usuario> {
     }
 
     @Override
-    public void crear(Usuario u) {
+    public void crear(Animal u) {
         try {
             String id = persistence.inserta(
                 toArray("name",u.getNombre()),
-                toArray("email",u.getCorreo())
+                toArray("especie",u.getEspecie())
             );
             u.setId(id);
         } catch (PersistenceMongoDB.CantInsertDocumentException ex) {
-            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public List<Usuario> obtenerTodos() {
-        List<Usuario> usuarios = new ArrayList<>();
+    public List<Animal> obtenerTodos() {
+        List<Animal> usuarios = new ArrayList<>();
         try {
             persistence.obtenTodosLosDocumentos().forEach(doc ->{
-                usuarios.add(new Usuario()
+                usuarios.add(new Animal()
                     .setId(doc.get("_id").toString())
                     .setNombre(doc.getString("name"))
-                    .setCorreo(doc.getString("email")));
+                    .setEspecie(doc.getString("especie")));
             });
         } catch (PersistenceMongoDB.CantGetDocumentsException ex) {
-            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return usuarios;
     }
 
     @Override
-    public void actualizar(Usuario u) {
+    public void actualizar(Animal u) {
         try {
             persistence.actualizaPorId(u.getId(),
                 toArray("name", u.getNombre()),
-                toArray("email", u.getCorreo()));
+                toArray("especie", u.getEspecie()));
         } catch (PersistenceMongoDB.CantUpdateDocumentException ex) {
-            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -87,37 +87,37 @@ public class UsuarioDAO implements DAO<Usuario> {
         try {
             persistence.eliminaPorId(id);
         } catch (PersistenceMongoDB.CantDeleteDocumentException ex) {
-            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     @Override
-    public Usuario obtener(String id) {
+    public Animal obtener(String id) {
         try {
             Document doc = persistence.obtenDocumentoPorId(id);
-            return new Usuario(doc.get("_id").toString(), doc.getString("name"),doc.getString("email"));
+            return new Animal(doc.get("_id").toString(), doc.getString("name"),doc.getString("especie"));
         } catch (PersistenceMongoDB.CantGetDocumentFilteringException ex) {
-            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public Usuario obtenerPorNombre(String nombre) {
+    public Animal obtenerPorNombre(String nombre) {
         try {
             Document doc = persistence.obtenDocumentoPorCampo("name",nombre);
-            return new Usuario(doc.get("_id").toString(), doc.getString("name"),doc.getString("email"));
+            return new Animal(doc.get("_id").toString(), doc.getString("name"),doc.getString("especie"));
         } catch (PersistenceMongoDB.CantGetDocumentFilteringException ex) {
-            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
     
-    public Usuario obtenerPorCorreo(String correo) {
+    public Animal obtenerPorEspecie(String especie) {
         try {
-            Document doc = persistence.obtenDocumentoPorCampo("email",correo);
-            return new Usuario(doc.get("_id").toString(), doc.getString("name"),doc.getString("email"));
+            Document doc = persistence.obtenDocumentoPorCampo("especie",especie);
+            return new Animal(doc.get("_id").toString(), doc.getString("name"),doc.getString("especie"));
         } catch (PersistenceMongoDB.CantGetDocumentFilteringException ex) {
-            Logger.getLogger(UsuarioDAO.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

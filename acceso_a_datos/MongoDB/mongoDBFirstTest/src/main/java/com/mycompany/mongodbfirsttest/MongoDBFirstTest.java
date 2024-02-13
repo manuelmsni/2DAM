@@ -5,7 +5,7 @@
 package com.mycompany.mongodbfirsttest;
 
 import com.mycompany.mongodbfirsttest.controller.ControladorVista;
-import com.mycompany.mongodbfirsttest.model.Usuario;
+import com.mycompany.mongodbfirsttest.model.Animal;
 import com.mycompany.mongodbfirsttest.view.Vista;
 import java.util.logging.Logger;
 

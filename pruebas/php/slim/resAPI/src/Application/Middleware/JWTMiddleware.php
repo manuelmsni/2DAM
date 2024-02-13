@@ -27,25 +27,27 @@ class JWTMiddleware implements MiddlewareInterface
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface
     {
         try {
-            // Valida el token JWT y lo adjunta a la solicitud como un atributo.
-            $request = JWToken::validateToken($request);
-            if (!$this->checkPermissions($request)) {
-                // Si el token no tiene los permisos requeridos, retorna una respuesta con estado HTTP 403 Forbidden.
+            $request = JWToken::validateToken($request); // Validates the token and attaches it to the request as an attribute.
+            if (!$this->checkPermissions($request)) { // Returns a response with HTTP 403 Forbidden status.
                 $response = new Response();
                 $response->getBody()->write(json_encode(['error' => 'Insufficient permissions']));
                 return $response->withStatus(403)->withHeader('Content-Type', 'application/json');
             }
-        } catch (InvalidTokenException $e) {
-            // Si hay un error en la validación del token, retorna una respuesta con estado HTTP 401 Unauthorized.
+        } catch (InvalidTokenException $e) { // Returns a response with HTTP 401 Unauthorized status.
             $response = new Response();
             $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
             return $response->withStatus(401)->withHeader('Content-Type', 'application/json');
         }
-
-        // Si el token es válido, procesa la siguiente capa del middleware o la ruta.
-        return $handler->handle($request);
+        return $handler->handle($request); // If the token is valid, process the next middleware layer or the route.
     }
 
+    /*
+     * This method checks if the token has the required permissions.
+     *
+     * @param ServerRequestInterface $request The request object.
+     * @return bool True if the token has the required permissions, false otherwise.
+     * @throws InvalidTokenException If the token is invalid.
+     */
     private function checkPermissions(ServerRequestInterface $request): bool
     {
         $decodedToken = $request->getAttribute('token');

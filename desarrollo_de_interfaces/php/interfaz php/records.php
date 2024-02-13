@@ -7,13 +7,16 @@ if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
 }
 
-$sql = "SELECT nombre, correo FROM " . TABLE_NAME;
+$sql = "SELECT * FROM " . TABLE_NAME;
 $result = $conn->query($sql);
 
 if ($result->num_rows > 0) {
     while($row = $result->fetch_assoc()) {
-        echo "<li>Nombre: " . $row["nombre"]. " - Correo: " . $row["correo"]. "</li>";
+        echo "<tr><td>" . $row["nombre"] . "</td><td>" . $row["precio"]. "</td><td><img alt='foto' src='" . $row["imagen"] . "'/></td></tr>";
     }
 } else {
-    echo "0 resultados";
+    echo "<tr><td colspan='3'>0 resultados</td></tr>";
 }
+
+$conn->close();
+?>

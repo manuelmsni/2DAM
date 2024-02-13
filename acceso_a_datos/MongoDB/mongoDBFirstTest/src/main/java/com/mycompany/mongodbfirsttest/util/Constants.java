@@ -18,7 +18,6 @@ public class Constants {
     /**
      * Constantes de la base de datos
      */
-    
     public static final String USER_DATABASE = "test";
-    public static final String USER_TABLE = "users";
+    public static final String USER_TABLE = "animales";
 }

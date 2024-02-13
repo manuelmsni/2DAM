@@ -13,12 +13,12 @@ import java.util.regex.Pattern;
 public class Vista implements Closeable {
     
     public static final String[] OPCIONES = {
-        "Listar usuarios",
-        "Crear usuario",
-        "Eliminar usuario",
-        "Actualizar usuario",
-        "Busca usuario por nombre",
-        "Busca usuario por correo"
+        "Listar animales",
+        "Crear animal",
+        "Eliminar animal",
+        "Actualizar animal",
+        "Busca animal por nombre",
+        "Busca animal por especie"
     };
     
     public static final String OPCION_SALIR = "99";
