@@ -47,26 +47,23 @@ class JWToken
      *
      * @param ServerRequestInterface $request
      * @return ServerRequestInterface
-     * @throws \Exception
+     * @throws InvalidTokenException
      */
     public static function validateToken(ServerRequestInterface $request): ServerRequestInterface
     {
         $authorizationHeader = $request->getHeaderLine('Authorization');
 
-        // Verifica si el encabezado de autorización está presente y tiene el formato esperado.
+        // Check if the authorization header is present and has the expected format
         if (empty($authorizationHeader) || !preg_match('/Bearer\s(\S+)/', $authorizationHeader, $matches)) {
             throw new \Exception('Token not found or invalid');
         }
 
-        // Extrae el token del encabezado.
-        $token = $matches[1];
+        $token = $matches[1]; // Extracts the token from the header.
 
         try {
-            // Intenta decodificar el token usando la clave secreta y el algoritmo HS256.
             $decoded = JWT::decode($token, new Key(JWToken::getSecret(), 'HS256'));
-        } catch (\Exception $e) {
-            // Si la decodificación falla o los permisos son insuficientes, lanza una excepción.
-            throw new \Exception('Token not valid or permissions denied');
+        } catch (InvalidTokenException $e) {
+            throw new InvalidTokenException();
         }
 
         // Si el token es válido, adjunta la información decodificada a la solicitud para su uso posterior.

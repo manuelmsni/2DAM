@@ -11,7 +11,7 @@ use App\Infrastructure\Persistence\User\InMemoryUserRepository;
 use DI\ContainerBuilder;
 
 return function (ContainerBuilder $containerBuilder) {
-    // Here we map our UserRepository interface to its in memory implementation
+    // Here we map our Repository interfaces to its in memory implementations
     $containerBuilder->addDefinitions([
         UserRepository::class => \DI\autowire(InMemoryUserRepository::class),
         TaxonRepository::class => \DI\autowire(InMemoryTaxonRepository::class),

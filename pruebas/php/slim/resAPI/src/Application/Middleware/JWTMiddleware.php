@@ -2,6 +2,7 @@
 
 namespace App\Application\Middleware;
 
+use App\Infrastructure\Persistence\JWT\InvalidTokenException;
 use App\Infrastructure\Persistence\JWT\JWToken;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -34,7 +35,7 @@ class JWTMiddleware implements MiddlewareInterface
                 $response->getBody()->write(json_encode(['error' => 'Insufficient permissions']));
                 return $response->withStatus(403)->withHeader('Content-Type', 'application/json');
             }
-        } catch (\Exception $e) {
+        } catch (InvalidTokenException $e) {
             // Si hay un error en la validación del token, retorna una respuesta con estado HTTP 401 Unauthorized.
             $response = new Response();
             $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
