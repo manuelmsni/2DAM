@@ -49,7 +49,7 @@ class JWTMiddleware implements MiddlewareInterface
     {
         $decodedToken = $request->getAttribute('token');
         if (!empty($this->requiredPermissions)) {
-            $tokenPermissions = $decodedToken->perm ?? [];
+            $tokenPermissions = $decodedToken->per ?? [];
             $hasPermission = false;
             foreach ($this->requiredPermissions as $requiredPermission) {
                 if (in_array($requiredPermission, $tokenPermissions)) {

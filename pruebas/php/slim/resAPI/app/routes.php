@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use App\Application\Actions\Key\ListKeysAction;
+use App\Application\Actions\Login\LoginAction;
 use App\Application\Actions\Taxon\ListTaxonsAction;
 use App\Application\Actions\User\ListUsersAction;
 use App\Application\Actions\User\ViewUserAction;
@@ -10,9 +11,7 @@ use App\Application\Middleware\JWTMiddleware;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\App;
-use Slim\Handlers\Strategies\RequestHandler;
 use Slim\Interfaces\RouteCollectorProxyInterface as Group;
-use Slim\Routing\RouteCollectorProxy;
 
 return function (App $app) {
     $app->options('/{routes:.*}', function (Request $request, Response $response) {

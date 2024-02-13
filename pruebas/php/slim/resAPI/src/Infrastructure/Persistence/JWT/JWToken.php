@@ -34,6 +34,7 @@ class JWToken
             'iat' => time(), // Tiempo en que el JWT fue emitido
             'exp' => time() + 3600, // Expiración del token, por ejemplo en 1 hora
             'sub' => $user->getId(), // Sujeto del token, podría ser el ID del usuario
+            'per' => $user->getPermissions() // Permisos del usuario
         ];
 
         $token = JWT::encode($payload, JWToken::getSecret(), 'HS256');

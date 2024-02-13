@@ -17,14 +17,16 @@ class User implements JsonSerializable
     private string $lastName;
 
     private string $password;
+    private array $permissions;
 
-    public function __construct(?int $id, string $username, string $firstName, string $lastName, string $password)
+    public function __construct(?int $id, string $username, string $firstName, string $lastName, string $password, array $permissions = [])
     {
         $this->id = $id;
         $this->username = strtolower($username);
         $this->firstName = ucfirst($firstName);
         $this->lastName = ucfirst($lastName);
         $this->password = $password;
+        $this->permissions = $permissions;
     }
 
     public function getId(): ?int
@@ -57,6 +59,16 @@ class User implements JsonSerializable
         $this->password = $password;
     }
 
+    public function getPermissions(): array
+    {
+        return $this->permissions;
+    }
+
+    public function setPermissions(array $permissions): void
+    {
+        $this->permissions = $permissions;
+    }
+
     #[\ReturnTypeWillChange]
     public function jsonSerialize(): array
     {
@@ -67,4 +79,5 @@ class User implements JsonSerializable
             'lastName' => $this->lastName
         ];
     }
+
 }

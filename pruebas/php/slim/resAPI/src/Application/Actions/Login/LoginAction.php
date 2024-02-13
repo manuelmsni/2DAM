@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Application\Actions\Auth;
+namespace App\Application\Actions\Login;
 
 use App\Application\Actions\Action;
 use App\Domain\User\UserNotFoundException;
@@ -10,7 +10,6 @@ use App\Infrastructure\Persistence\JWT\JWToken;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Log\LoggerInterface;
 use App\Domain\User\UserRepository;
-use Firebase\JWT\JWT;
 
 class LoginAction extends Action
 {
