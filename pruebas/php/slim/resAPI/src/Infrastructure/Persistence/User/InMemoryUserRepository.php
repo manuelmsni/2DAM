@@ -21,11 +21,11 @@ class InMemoryUserRepository implements UserRepository
     public function __construct(array $users = null)
     {
         $this->users = $users ?? [
-            1 => new User(1, 'bill.gates', 'Bill', 'Gates'),
-            2 => new User(2, 'steve.jobs', 'Steve', 'Jobs'),
-            3 => new User(3, 'mark.zuckerberg', 'Mark', 'Zuckerberg'),
-            4 => new User(4, 'evan.spiegel', 'Evan', 'Spiegel'),
-            5 => new User(5, 'jack.dorsey', 'Jack', 'Dorsey'),
+            1 => new User(1, 'bill.gates', 'Bill', 'Gates', 'sedargates'),
+            2 => new User(2, 'steve.jobs', 'Steve', 'Jobs', 'applejobs'),
+            3 => new User(3, 'mark.zuckerberg', 'Mark', 'Zuckerberg', 'facebookzuck'),
+            4 => new User(4, 'evan.spiegel', 'Evan', 'Spiegel', 'snapchatspiegel'),
+            5 => new User(5, 'jack.dorsey', 'Jack', 'Dorsey', 'twitterdorsey'),
         ];
     }
 
@@ -47,5 +47,29 @@ class InMemoryUserRepository implements UserRepository
         }
 
         return $this->users[$id];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findUserOfUsername(string $username): User
+    {
+        foreach ($this->users as $user) {
+            if ($user->getUsername() === $username) {
+                return $user;
+            }
+        }
+        throw new UserNotFoundException();
+    }
+
+    public function findUserOfUsernameAndPassword(string $username, string $password): ?User
+    {
+        foreach ($this->users as $user) {
+            if ($user->getUsername() === $username  && $password === $user->getPassword()) {
+                return $user;
+            }
+        }
+
+        throw new UserNotFoundException();
     }
 }

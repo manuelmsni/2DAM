@@ -4,7 +4,7 @@ namespace App\Application\Actions\Key;
 
 use Psr\Http\Message\ResponseInterface as Response;
 
-abstract class ListKeysAction extends KeyAction
+class ListKeysAction extends KeyAction
 {
     /**
      * @inheritDoc
