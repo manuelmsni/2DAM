@@ -27,14 +27,14 @@ class JWToken
      */
     public static function createToken(User $user): string
     {
-        $key = "your_secret_key"; // Mejor almacenarlo en una variable de entorno o configuración segura
+        $exp = getenv('JWT_EXP') ?: 3600;
         $payload = [
-            'iss' => "your_issuer", // Emisor del token
-            'aud' => "your_audience", // Audiencia del token
-            'iat' => time(), // Tiempo en que el JWT fue emitido
-            'exp' => time() + 3600, // Expiración del token, por ejemplo en 1 hora
-            'sub' => $user->getId(), // Sujeto del token, podría ser el ID del usuario
-            'per' => $user->getPermissions() // Permisos del usuario
+            'iss' => "your_issuer",
+            'aud' => "your_audience",
+            'iat' => time(),
+            'exp' => time() + $exp,
+            'sub' => $user->getId(),
+            'per' => $user->getPermissions()
         ];
 
         $token = JWT::encode($payload, JWToken::getSecret(), 'HS256');
