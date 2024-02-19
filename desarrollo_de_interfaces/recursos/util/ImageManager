@@ -1,0 +1,26 @@
+public class ImageManager
+{
+    public static async Task<Image> FromURL(string imageUrl)
+    {
+        try
+        {
+            using (HttpClient client = new HttpClient())
+            using (Stream stream = await client.GetStreamAsync(new Uri(imageUrl)))
+            {
+                // Cargar la imagen desde la secuencia obtenida de la URL
+                return Image.FromStream(stream);
+            }
+        }
+        catch (Exception e)
+        {
+            // En caso de error, carga una imagen de respaldo
+            return FromPath("./Assets/img/logoPezinvertido.png");
+        }
+    }
+
+    public static Image FromPath(string imagePath)
+    {
+        // Cargar la imagen desde la ruta local
+        return Image.FromFile(imagePath);
+    }
+}

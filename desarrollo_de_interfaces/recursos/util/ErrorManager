@@ -1,0 +1,31 @@
+public class ErrorManager
+{
+    public static void Register(Exception ex)
+    {
+        ShowToUser(ex); // Muestra un mensaje de alerta al usuario con detalles del error.
+        Save(ex); // Guarda los detalles del error en un archivo de registro.
+    }
+
+    public static void ShowToUser(Exception ex)
+    {
+        MessageManager.ShowAlert("Error", $"Se produjo un error:\n\n{ex.Message}");
+    }
+
+    public static void Save(Exception ex)
+    {
+        // Utilizando un StreamWriter para escribir en el archivo de registro de errores
+        using (StreamWriter writer = new StreamWriter(Constants.ERROR_LOG_FILE, true))
+        {
+            // Escribir la fecha y hora actual
+            writer.WriteLine($"Fecha y hora: {DateTime.Now}");
+
+            // Escribir la información de la excepción
+            writer.WriteLine($"Mensaje de error: {ex.Message}");
+            writer.WriteLine($"Tipo de excepción: {ex.GetType().FullName}");
+            writer.WriteLine($"Stack Trace: {ex.StackTrace}");
+
+            // Separador para distinguir entre diferentes registros de errores
+            writer.WriteLine(new string('-', 50));
+        }
+    }
+}

@@ -1,0 +1,20 @@
+public class MessageManager
+{
+    public static bool AskForConfirmation(string messaje)
+    {
+        // Muestra un cuadro de diálogo de confirmación con las opciones "Sí" y "No"
+        return MessageBox.Show(messaje, "Confirmación", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes;
+    }
+
+    public static void ShowMessaje(string title, string messaje)
+    {
+        // Muestra un cuadro de diálogo de mensaje con la opción "Aceptar"
+        MessageBox.Show(messaje, title, MessageBoxButtons.OK, MessageBoxIcon.None);
+    }
+
+    public static void ShowAlert(string title, string messaje)
+    {
+        // Muestra un cuadro de diálogo de alerta de error con la opción "Aceptar"
+        MessageBox.Show(messaje, title, MessageBoxButtons.OK, MessageBoxIcon.Error);
+    }
+}

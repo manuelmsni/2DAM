@@ -1,0 +1,31 @@
+public class HttpJsonClient
+{
+    public const string BASE_URL_API = "http://localhost:32768";
+    public const string CUSTOM_PATH_API = "/LevenshteinDistance";
+
+    public static async Task<string> PostMethod(string firstFile, string secondFile)
+    {
+        string data;
+        Coincidence root = new Coincidence
+        {
+            contentFileOrigin = firstFile,
+            contentFileOther = secondFile
+        };
+        // Simulamos una operación que lleva tiempo (por ejemplo, una solicitud HTTP)
+        using (HttpClient httpClient = new HttpClient())
+        {
+            var result = await httpClient.PostAsJsonAsync($"{BASE_URL_API}{CUSTOM_PATH_API}", root);
+            data = await result.Content.ReadAsStringAsync();
+            Console.WriteLine(data);
+        }
+        return data;
+    }
+    public static async Task<T> RequestDataAsync(string baseAPI, string URI)
+    {
+        using (HttpClient httpClient = new HttpClient())
+        {
+            T? myJsonResponse = await httpClient.GetFromJsonAsync<T>($"{BASE_URL_API}{CUSTOM_PATH_API}");
+            return myJsonResponse ?? new T();
+        }
+    }
+}

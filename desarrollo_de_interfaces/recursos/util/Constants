@@ -1,0 +1,27 @@
+public class Constants
+{
+    public const string SERVER_DIR = "localhost";
+    public const string SERVER_PORT = "6969";
+    public const string SERVER_USER = "root";
+    public const string SERVER_PASSWORD = "";
+    public const string DATABASE_NAME = "pet";
+
+    // ----- Constantes de la base de datos -----
+    public const string SERVER_STRING = $"server={SERVER_DIR};" +
+                                        $"port={SERVER_PORT};" +
+                                        $"uid={SERVER_USER};" +
+                                        $"pwd={SERVER_PASSWORD};";
+
+    // string de conexión MySQL
+    public const string CONNECTION_STRING = SERVER_STRING +
+                                            $"database={DATABASE_NAME};";
+
+    // Other
+    public const string ErrorLogFile = "Errors.log";
+    public const string LOGO_PATH = "Assets/img/logoPezInvertido.png";
+
+    // ----- Creación de la base de datos -----
+    public const string USE_DATABASE = $"USE {DATABASE_NAME};";
+    public const string ERROR_LOG_FILE = "Errors.log";
+
+}

@@ -1,0 +1,24 @@
+public class DatabaseManager
+{
+    public static bool CheckDatabase()
+    {
+        // Crear la conexión a MySQL
+        using (MySqlConnection connection = new MySqlConnection(Constants.SERVER_STRING))
+        {
+            try
+            {
+                // Abrir la conexión
+                connection.Open();
+                using (MySqlCommand command = new MySqlCommand(Constants.USE_DATABASE, connection))
+                {
+                    command.ExecuteNonQuery();
+                }
+            }
+            catch (MySqlException e)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+}

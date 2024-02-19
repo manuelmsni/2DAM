@@ -1,0 +1,7 @@
+public interface DAO<T> where T : class
+{
+    List<T> GetAll();
+    T SelectObject(int id);
+    bool InsertObject(T obj);
+    bool UpdateObject(T obj);
+}
