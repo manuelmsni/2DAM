@@ -4,7 +4,7 @@
  */
 package com.mycompany.psp_ud04_act2.ejercicios;
 
-import com.mycompany.psp_ud04_act2.view.VistaEj2;
+import com.mycompany.psp_ud04_act2.view.Ej2VistaSevidor;
 import java.util.List;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -20,7 +20,7 @@ import java.util.Scanner;
  */
 public class Ej2 {
     public static void main(String[] args){
-        VistaEj2 v = new VistaEj2();
+        Ej2VistaSevidor v = new Ej2VistaSevidor();
         v.setVisible(true);
     }
     
@@ -37,8 +37,8 @@ public class Ej2 {
             this.PORT = puerto;
             this.INIT_MSG = initMsg;
             this.MAX_CLIENTS = maxClients;
-            System.out.println("Init msg: " + initMsg);
-            System.out.println("Max clients: " + initMsg);
+            System.out.println("Init msg: " + INIT_MSG);
+            System.out.println("Max clients: " + MAX_CLIENTS);
             System.out.println("Port Number: " + PORT);
         }
 

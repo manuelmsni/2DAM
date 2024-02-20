@@ -4,7 +4,7 @@
  */
 package com.mycompany.psp_ud04_act2.ejercicios;
 
-import com.mycompany.psp_ud04_act2.view.VistaEj2;
+import com.mycompany.psp_ud04_act2.view.Ej2VistaSevidor;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.util.List;

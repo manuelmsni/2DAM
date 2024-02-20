@@ -33,6 +33,7 @@ public class SelectorEjercicios extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -60,6 +61,9 @@ public class SelectorEjercicios extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton3);
+
+        jButton4.setText("Ej4");
+        getContentPane().add(jButton4);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -115,5 +119,6 @@ public class SelectorEjercicios extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     // End of variables declaration//GEN-END:variables
 }

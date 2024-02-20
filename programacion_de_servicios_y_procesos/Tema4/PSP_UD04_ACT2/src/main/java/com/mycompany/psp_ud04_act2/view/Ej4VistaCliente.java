@@ -5,6 +5,8 @@
 package com.mycompany.psp_ud04_act2.view;
 
 import com.mycompany.psp_ud04_act2.ejercicios.Ej2;
+import com.mycompany.psp_ud04_act2.ejercicios.Ej4;
+import com.mycompany.psp_ud04_act2.util.ThreadOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import javax.swing.JOptionPane;
@@ -14,44 +16,21 @@ import javax.swing.SwingUtilities;
  *
  * @author manuelmsni
  */
-public class VistaEj2 extends javax.swing.JFrame {
+public class Ej4VistaCliente extends javax.swing.JFrame {
 
     /**
      * Creates new form VistaEj2
      */
-    public VistaEj2() {
+    public Ej4VistaCliente() {
         initComponents();
-        
-        OutputStream out = new OutputStream() {
-            @Override
-            public void write(int b) {
-                SwingUtilities.invokeLater(() -> output.append(String.valueOf((char) b)));
-            }
-
-            @Override
-            public void write(byte[] b, int off, int len) {
-                String message = new String(b, off, len);
-                String lineSeparator = System.getProperty("line.separator");
-                final String finalMessage = message.replace("\n", lineSeparator);
-                SwingUtilities.invokeLater(() -> output.append(finalMessage));
-            }
-        };
-
-        PrintStream printStream = new PrintStream(out, true);
-        System.setOut(printStream);
-        System.setErr(printStream);
     }
     
-    public static void activateServer(int portNumber, String messaje, int maxClients){
-        Thread server = new Thread(new Ej2.Servidor(portNumber, messaje, maxClients));
-        server.start();
-    }
-    
-    public static void createClient(String host, int portNumber){
-        Thread client = new Thread(new Ej2.Cliente(host, portNumber));
+    public void activateClient(int portNumber, String messaje){
+        OutputStream out = new ThreadOutputStream(output);
+        Thread client = new Thread(new Ej4.Cliente("127.0.0.1", portNumber, messaje, out));
         client.start();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -71,17 +50,12 @@ public class VistaEj2 extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         input = new javax.swing.JTextField();
         jPanel6 = new javax.swing.JPanel();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
-        nClients = new javax.swing.JSpinner();
         jPanel8 = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         port = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         activate = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
-        jPanel10 = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
         jPanel11 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         output = new javax.swing.JTextArea();
@@ -90,7 +64,7 @@ public class VistaEj2 extends javax.swing.JFrame {
 
         jPanel3.setLayout(new javax.swing.BoxLayout(jPanel3, javax.swing.BoxLayout.Y_AXIS));
 
-        jLabel1.setText("PSP SERVER");
+        jLabel1.setText("PSP CLIENT");
         jPanel1.add(jLabel1);
 
         jPanel3.add(jPanel1);
@@ -103,7 +77,7 @@ public class VistaEj2 extends javax.swing.JFrame {
 
         jPanel12.add(jPanel4);
 
-        jLabel4.setText("Income Messaje");
+        jLabel4.setText("Client Messaje");
         jPanel5.add(jLabel4);
 
         input.setPreferredSize(new java.awt.Dimension(400, 22));
@@ -112,15 +86,6 @@ public class VistaEj2 extends javax.swing.JFrame {
         jPanel12.add(jPanel5);
 
         jPanel6.setLayout(new java.awt.GridLayout(1, 2));
-
-        jLabel5.setText("Max. Nº of Clients: ");
-        jPanel7.add(jLabel5);
-
-        nClients.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        nClients.setPreferredSize(new java.awt.Dimension(120, 22));
-        jPanel7.add(nClients);
-
-        jPanel6.add(jPanel7);
 
         jLabel6.setText("Port N:");
         jPanel8.add(jLabel6);
@@ -132,9 +97,7 @@ public class VistaEj2 extends javax.swing.JFrame {
 
         jPanel6.add(jPanel8);
 
-        jPanel12.add(jPanel6);
-
-        activate.setText("ACTIVATE SERVER");
+        activate.setText("CONNECT");
         activate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 activateActionPerformed(evt);
@@ -142,18 +105,15 @@ public class VistaEj2 extends javax.swing.JFrame {
         });
         jPanel9.add(activate);
 
-        jPanel12.add(jPanel9);
+        jPanel6.add(jPanel9);
+
+        jPanel12.add(jPanel6);
 
         jPanel3.add(jPanel12);
 
         getContentPane().add(jPanel3, java.awt.BorderLayout.NORTH);
 
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
-
-        jLabel3.setText("STATUS");
-        jPanel10.add(jLabel3);
-
-        jPanel2.add(jPanel10);
 
         jScrollPane1.setPreferredSize(new java.awt.Dimension(520, 400));
 
@@ -176,13 +136,9 @@ public class VistaEj2 extends javax.swing.JFrame {
         // TODO add your handling code here:
         try{
             int portNumber = Integer.valueOf(port.getText());
-            int clients = ((Number)nClients.getValue()).intValue();
             String messaje = input.getText();
             if(!messaje.isBlank()){
-                activateServer(portNumber, messaje, clients);
-                for(int i = 0; i < clients; i++){
-                    createClient("127.0.0.1", portNumber);
-                }
+                activateClient(portNumber, messaje);
             } else {
                 JOptionPane.showMessageDialog(null, "No has introducido un mensaje.", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -208,20 +164,35 @@ public class VistaEj2 extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(VistaEj2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ej4VistaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(VistaEj2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ej4VistaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(VistaEj2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ej4VistaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(VistaEj2.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Ej4VistaCliente.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new VistaEj2().setVisible(true);
+                new Ej4VistaCliente().setVisible(true);
             }
         });
     }
@@ -231,12 +202,9 @@ public class VistaEj2 extends javax.swing.JFrame {
     private javax.swing.JTextField input;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
     private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
@@ -244,11 +212,9 @@ public class VistaEj2 extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
     private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSpinner nClients;
     private javax.swing.JTextArea output;
     private javax.swing.JTextField port;
     // End of variables declaration//GEN-END:variables
