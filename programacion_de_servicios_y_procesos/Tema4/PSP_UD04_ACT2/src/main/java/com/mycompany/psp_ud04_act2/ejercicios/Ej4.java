@@ -6,14 +6,11 @@ package com.mycompany.psp_ud04_act2.ejercicios;
 
 import com.mycompany.psp_ud04_act2.view.Ej4VistaSevidor;
 import java.util.List;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -98,6 +95,7 @@ public class Ej4 {
             for(Byte b :msg.getBytes()){
                 try {
                     out.write(b);
+                    
                 } catch (IOException ex) {
                     Logger.getLogger(Ej4.class.getName()).log(Level.SEVERE, null, ex);
                 }

@@ -30,9 +30,9 @@ public class Ej4VistaSevidor extends javax.swing.JFrame {
     
     public void activateServer(int portNumber, String messaje, int maxClients){
         
-        OutputStream tos1 = new ThreadOutputStream(output);
+        OutputStream os = new ThreadOutputStream(output);
         
-        Thread server = new Thread(new Ej4.Servidor(portNumber, messaje, maxClients, tos1));
+        Thread server = new Thread(new Ej4.Servidor(portNumber, messaje, maxClients, os));
         
         server.start();
     }

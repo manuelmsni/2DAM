@@ -7,6 +7,7 @@ package com.mycompany.psp_ud04_act2.view;
 import com.mycompany.psp_ud04_act2.ejercicios.Ej1;
 import com.mycompany.psp_ud04_act2.ejercicios.Ej2;
 import com.mycompany.psp_ud04_act2.ejercicios.Ej3;
+import com.mycompany.psp_ud04_act2.ejercicios.Ej4;
 
 /**
  *
@@ -63,6 +64,11 @@ public class SelectorEjercicios extends javax.swing.JFrame {
         getContentPane().add(jButton3);
 
         jButton4.setText("Ej4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
         getContentPane().add(jButton4);
 
         pack();
@@ -79,6 +85,10 @@ public class SelectorEjercicios extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Ej3.main(null);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Ej4.main(null);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
