@@ -55,6 +55,8 @@ public class Ej2 {
                         CLIENTS.add(sc);
                         System.out.println("Client connected");
                         System.out.println("Client HOST: " + sc.getInetAddress().getHostAddress());
+                    } else {
+                        System.out.println("Client limit reached!");
                     }
                 }
             } catch (IOException ex) {

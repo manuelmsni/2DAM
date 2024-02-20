@@ -69,6 +69,8 @@ public class Ej4 {
                         clients.add(sc);
                         print("Client connected");
                         print("Client HOST: " + sc.getInetAddress().getHostAddress());
+                    } else {
+                        print("Client limit reached!");
                     }
                 }
             } catch (IOException ex) {
