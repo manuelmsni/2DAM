@@ -13,15 +13,24 @@ import javax.swing.SwingUtilities;
  * @author manuelmsni
  */
 
-public class ThreadOutputStream extends OutputStream {
+public class CustomOutputStream extends OutputStream {
     private JTextArea output;
 
-    public ThreadOutputStream(JTextArea output) {
+    public CustomOutputStream(JTextArea output) {
         this.output = output;
     }
 
     @Override
     public void write(int b) throws IOException {
         SwingUtilities.invokeLater(() -> output.append(String.valueOf((char) b)));
-    }  
+    }
+    
+    public void printLine(String msg) throws IOException{
+        for(Byte b :msg.getBytes()){
+            write(b);
+        }
+        write(System.getProperty("line.separator").getBytes());
+    }   
+    
+
 }

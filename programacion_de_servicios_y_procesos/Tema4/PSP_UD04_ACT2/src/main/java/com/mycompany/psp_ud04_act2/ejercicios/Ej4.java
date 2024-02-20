@@ -4,10 +4,10 @@
  */
 package com.mycompany.psp_ud04_act2.ejercicios;
 
+import com.mycompany.psp_ud04_act2.util.CustomOutputStream;
 import com.mycompany.psp_ud04_act2.view.Ej4VistaSevidor;
 import java.util.List;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -31,25 +31,24 @@ public class Ej4 {
         private String initMsg;
         private int maxClients;
         private List<Socket> clients;
-        private OutputStream out;
+        private CustomOutputStream out;
 
-        public Servidor(int puerto, String initMsg, int maxClients, OutputStream out) {
+        public Servidor(int puerto, String initMsg, int maxClients, CustomOutputStream out) {
             clients = new ArrayList<>();
             this.port = puerto;
             this.initMsg = initMsg;
             this.maxClients = maxClients;
+            this.out = out;
             print("Init msg: " + this.initMsg);
             print("Max clients: " + this.maxClients);
             print("Port Number: " + port);
         }
         
         private void print(String msg){
-            for(Byte b :msg.getBytes()){
-                try {
-                    out.write(b);
-                } catch (IOException ex) {
-                    Logger.getLogger(Ej4.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                out.printLine(msg);
+            } catch (IOException ex) {
+                Logger.getLogger(Ej4.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 
@@ -82,9 +81,9 @@ public class Ej4 {
         private String host;
         private int puerto;
         private String messaje;
-        private OutputStream out;
+        private CustomOutputStream out;
 
-        public Cliente(String host, int puerto, String messaje, OutputStream out) {
+        public Cliente(String host, int puerto, String messaje, CustomOutputStream out) {
             this.host = host;
             this.puerto = puerto;
             this.messaje = messaje;
@@ -92,13 +91,10 @@ public class Ej4 {
         }
         
         private void print(String msg){
-            for(Byte b :msg.getBytes()){
-                try {
-                    out.write(b);
-                    
-                } catch (IOException ex) {
-                    Logger.getLogger(Ej4.class.getName()).log(Level.SEVERE, null, ex);
-                }
+            try {
+                out.printLine(msg);
+            } catch (IOException ex) {
+                Logger.getLogger(Ej4.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
 

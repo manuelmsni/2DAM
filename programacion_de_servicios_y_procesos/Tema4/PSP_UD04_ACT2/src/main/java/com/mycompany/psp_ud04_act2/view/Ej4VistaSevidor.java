@@ -6,7 +6,7 @@ package com.mycompany.psp_ud04_act2.view;
 
 import com.mycompany.psp_ud04_act2.ejercicios.Ej2;
 import com.mycompany.psp_ud04_act2.ejercicios.Ej4;
-import com.mycompany.psp_ud04_act2.util.ThreadOutputStream;
+import com.mycompany.psp_ud04_act2.util.CustomOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -30,7 +30,7 @@ public class Ej4VistaSevidor extends javax.swing.JFrame {
     
     public void activateServer(int portNumber, String messaje, int maxClients){
         
-        OutputStream os = new ThreadOutputStream(output);
+        CustomOutputStream os = new CustomOutputStream(output);
         
         Thread server = new Thread(new Ej4.Servidor(portNumber, messaje, maxClients, os));
         

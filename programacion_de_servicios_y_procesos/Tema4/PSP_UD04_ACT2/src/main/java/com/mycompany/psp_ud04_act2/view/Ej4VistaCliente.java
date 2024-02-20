@@ -6,7 +6,7 @@ package com.mycompany.psp_ud04_act2.view;
 
 import com.mycompany.psp_ud04_act2.ejercicios.Ej2;
 import com.mycompany.psp_ud04_act2.ejercicios.Ej4;
-import com.mycompany.psp_ud04_act2.util.ThreadOutputStream;
+import com.mycompany.psp_ud04_act2.util.CustomOutputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import javax.swing.JOptionPane;
@@ -26,7 +26,7 @@ public class Ej4VistaCliente extends javax.swing.JFrame {
     }
     
     public void activateClient(int portNumber, String messaje){
-        OutputStream out = new ThreadOutputStream(output);
+        CustomOutputStream out = new CustomOutputStream(output);
         Thread client = new Thread(new Ej4.Cliente("127.0.0.1", portNumber, messaje, out));
         client.start();
     }
