@@ -4,6 +4,8 @@
 
 package com.mycompany.psp_ud04_act2;
 
+import com.mycompany.psp_ud04_act2.view.SelectorEjercicios;
+
 /**
  *
  * @author manuelmsni
@@ -11,6 +13,7 @@ package com.mycompany.psp_ud04_act2;
 public class PSP_UD04_ACT2 {
 
     public static void main(String[] args) {
-        System.out.println("Hello World!");
+        SelectorEjercicios vista = new SelectorEjercicios();
+        vista.setVisible(true);
     }
 }
