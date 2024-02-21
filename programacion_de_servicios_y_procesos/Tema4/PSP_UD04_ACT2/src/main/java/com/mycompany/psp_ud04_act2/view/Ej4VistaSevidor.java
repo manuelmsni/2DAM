@@ -4,22 +4,23 @@
  */
 package com.mycompany.psp_ud04_act2.view;
 
-import com.mycompany.psp_ud04_act2.ejercicios.Ej2;
-import com.mycompany.psp_ud04_act2.ejercicios.Ej4;
-import com.mycompany.psp_ud04_act2.util.CustomOutputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
+
+import com.mycompany.psp_ud04_act2.ejercicios.ej4packaje.Servidor;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
+
 
 /**
  *
  * @author manuelmsni
  */
 public class Ej4VistaSevidor extends javax.swing.JFrame {
-    
-    private static OutputStream out;
 
     /**
      * Creates new form VistaEj2
@@ -29,12 +30,35 @@ public class Ej4VistaSevidor extends javax.swing.JFrame {
     }
     
     public void activateServer(int portNumber, String messaje, int maxClients){
-        
-        CustomOutputStream os = new CustomOutputStream(output);
-        
-        Thread server = new Thread(new Ej4.Servidor(portNumber, messaje, maxClients, os));
-        
-        server.start();
+        String classpath = System.getProperty("java.class.path");
+        String className = "com.mycompany.psp_ud04_act2.ejercicios.ej4packaje.Servidor";
+        ProcessBuilder pb = new ProcessBuilder("java", "-cp", classpath, className, String.valueOf(portNumber), messaje, String.valueOf(maxClients));
+
+        try {
+            Process p = pb.start();
+            InputStream inputStream = p.getInputStream();
+            redirigeStream(inputStream);
+            InputStream errorStream = p.getErrorStream();
+            redirigeStream(errorStream);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void redirigeStream(InputStream s){
+        new Thread(() -> {
+            try {
+                InputStreamReader isr = new InputStreamReader(s);
+                BufferedReader br = new BufferedReader(isr);
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    String finalLinea = linea;
+                    SwingUtilities.invokeLater(() -> output.append(finalLinea + "\n"));
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
     }
     
     public static void createClient(String host, int portNumber){
@@ -170,7 +194,7 @@ public class Ej4VistaSevidor extends javax.swing.JFrame {
             String messaje = input.getText();
             if(!messaje.isBlank()){
                 activateServer(portNumber, messaje, clients);
-                for(int i = 0; i < clients; i++){
+                for(int i = 0; i < clients + 1; i++){
                     createClient("127.0.0.1", portNumber);
                 }
             } else {

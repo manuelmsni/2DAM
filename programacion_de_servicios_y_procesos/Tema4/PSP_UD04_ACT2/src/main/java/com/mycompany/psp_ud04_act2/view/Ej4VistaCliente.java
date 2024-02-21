@@ -4,11 +4,13 @@
  */
 package com.mycompany.psp_ud04_act2.view;
 
-import com.mycompany.psp_ud04_act2.ejercicios.Ej2;
-import com.mycompany.psp_ud04_act2.ejercicios.Ej4;
-import com.mycompany.psp_ud04_act2.util.CustomOutputStream;
-import java.io.OutputStream;
-import java.io.PrintStream;
+import com.mycompany.psp_ud04_act2.ejercicios.ej4packaje.Cliente;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 
@@ -26,9 +28,34 @@ public class Ej4VistaCliente extends javax.swing.JFrame {
     }
     
     public void activateClient(int portNumber, String messaje){
-        CustomOutputStream out = new CustomOutputStream(output);
-        Thread client = new Thread(new Ej4.Cliente("127.0.0.1", portNumber, messaje, out));
-        client.start();
+        String classpath = System.getProperty("java.class.path");
+        String className = "com.mycompany.psp_ud04_act2.ejercicios.ej4packaje.Cliente";
+        ProcessBuilder pb = new ProcessBuilder("java", "-cp", classpath, className, "127.0.0.1", String.valueOf(portNumber), messaje);
+       try {
+            Process p = pb.start();
+            InputStream inputStream = p.getInputStream();
+            redirigeStream(inputStream);
+            InputStream errorStream = p.getErrorStream();
+            redirigeStream(errorStream);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    
+    private void redirigeStream(InputStream s){
+        new Thread(() -> {
+            try {
+                InputStreamReader isr = new InputStreamReader(s);
+                BufferedReader br = new BufferedReader(isr);
+                String linea;
+                while ((linea = br.readLine()) != null) {
+                    String finalLinea = linea;
+                    SwingUtilities.invokeLater(() -> output.append(finalLinea + "\n"));
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
     }
     
     /**
