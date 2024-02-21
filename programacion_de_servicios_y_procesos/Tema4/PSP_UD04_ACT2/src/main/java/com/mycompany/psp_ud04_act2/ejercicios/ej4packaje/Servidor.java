@@ -4,15 +4,20 @@
  */
 package com.mycompany.psp_ud04_act2.ejercicios.ej4packaje;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.SwingUtilities;
 
 /**
  *
@@ -52,29 +57,66 @@ public class Servidor extends Thread {
     public void run() {
         try {
             print("Creating Server Socket...");
-            servidor = new ServerSocket(port);
+            servidor = new ServerSocket(port, maxClients);
             print("Server Socket OK!");
             print("Waiting for clients... ");
-            while (servidor != null && !servidor.isClosed()) {
-                if(clients.size() < maxClients){
-                    sc = servidor.accept();
-                    clients.add(sc);
-                    print("Client connected");
-                    print("Client HOST: " + sc.getInetAddress().getHostAddress());
-
-                    inS = new DataInputStream(sc.getInputStream());
-                    outS = new DataOutputStream(sc.getOutputStream());
-
-                    print("Client name: " + inS.readUTF());
-
-                    outS.writeUTF(String.valueOf(clients.size()));
-
-                } else {
-                    print("Client limit reached!");
-                }
-            }
+            
+            do{
+                sc = servidor.accept();
+                if(clients.size() < maxClients) attend(sc);
+                else print("Client limit reached!");
+            }while (servidor != null && !servidor.isClosed() && clients.size() < maxClients);
+            
+            close();
         } catch (IOException ex) {
             ex.printStackTrace();
+        }
+    }
+    
+    private void attend(Socket sc){
+        new Thread(() -> {
+            try {
+                if(!clients.contains(sc)) clients.add(sc);
+                print("---------------------");
+                print("Client num " + clients.size() + " connected");
+                print("Client HOST: " + sc.getInetAddress().getHostAddress());
+
+                inS = new DataInputStream(sc.getInputStream());
+                outS = new DataOutputStream(sc.getOutputStream());
+                
+                outS.writeUTF(initMsg);
+                outS.writeUTF(String.valueOf(clients.size()));
+                
+                print("Client name: " + inS.readUTF());
+                
+                String command = inS.readUTF();
+                String response = procesarComandoHora(command);
+                outS.writeUTF(response);
+
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }).start();
+        
+    }
+    
+    private static String procesarComandoHora(String command) {
+        if (command.equalsIgnoreCase("echo %time%")) {
+            SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            Date date = new Date();
+            return formatter.format(date);
+        } else {
+            return "Comando no reconocido";
+        }
+    }
+    
+    public void close(){
+        if(servidor != null && !servidor.isClosed()){
+            try {
+                servidor.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         }
     }
 }

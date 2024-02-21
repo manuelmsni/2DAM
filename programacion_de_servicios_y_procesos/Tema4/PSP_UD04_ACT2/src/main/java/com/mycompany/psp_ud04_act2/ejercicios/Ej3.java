@@ -27,6 +27,9 @@ public class Ej3 {
         
         Thread clienteThread2 = new Thread(new Cliente("127.0.0.1", 5000, "ClienteNum2"));
         clienteThread2.start();
+        
+        Thread clienteThread3 = new Thread(new Cliente("127.0.0.1", 5000, "ClienteNum3"));
+        clienteThread3.start();
     }
     
     public static class Servidor implements Runnable {
@@ -46,15 +49,18 @@ public class Ej3 {
 
         @Override
         public void run() {
+            // Pongo un contador porque sí para que no se ejecute de forma infinita
+            int contador = 0;
             try {
                 servidor = new ServerSocket(PORT);
-                while (true) {
+                while (contador++<3) {
                     Socket sc = servidor.accept();
                     ClienteHandler clienteHandler = new ClienteHandler(sc);
                     Thread thread = new Thread(clienteHandler);
                     hilos.add(thread);
                     thread.start();
                 }
+                servidor.close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -75,7 +81,6 @@ public class Ej3 {
                     in = new DataInputStream(sc.getInputStream());
                     out = new DataOutputStream(sc.getOutputStream());
 
-                    // Procesamiento específico del cliente
                     String nombreCliente = in.readUTF();
                     System.out.println("Recibida solicitud de cliente nombre: " + nombreCliente);
 

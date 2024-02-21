@@ -104,7 +104,7 @@ public class Ej4VistaCliente extends javax.swing.JFrame {
 
         jPanel12.add(jPanel4);
 
-        jLabel4.setText("Client Messaje");
+        jLabel4.setText("Client Name");
         jPanel5.add(jLabel4);
 
         input.setPreferredSize(new java.awt.Dimension(400, 22));

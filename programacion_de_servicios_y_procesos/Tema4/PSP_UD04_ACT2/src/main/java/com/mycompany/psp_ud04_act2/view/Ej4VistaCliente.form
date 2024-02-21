@@ -75,7 +75,7 @@
               <SubComponents>
                 <Component class="javax.swing.JLabel" name="jLabel4">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Client Messaje"/>
+                    <Property name="text" type="java.lang.String" value="Client Name"/>
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JTextField" name="input">

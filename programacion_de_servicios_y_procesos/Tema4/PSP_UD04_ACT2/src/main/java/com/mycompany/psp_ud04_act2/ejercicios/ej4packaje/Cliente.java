@@ -47,9 +47,23 @@ public class Cliente extends Thread {
 
             print("SERVER MSG: " + inS.readUTF());
             outS.writeUTF(messaje);
-
+            print("CLIENT Nº: " + inS.readUTF());
+            
+            enviarComando();
+            
+            imprimeRespuesta();
+            
+            sc.close();
         } catch (IOException ex) {
-            ex.printStackTrace();
+            print("El servidor está cerrado!");
         }
+    }
+    
+    private void enviarComando() throws IOException {
+        outS.writeUTF("echo %time%");
+    }
+    
+    private void imprimeRespuesta() throws IOException {
+        print(inS.readUTF());
     }
 }
