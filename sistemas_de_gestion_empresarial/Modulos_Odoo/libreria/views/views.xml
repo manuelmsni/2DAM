@@ -1,0 +1,78 @@
+<odoo>
+  <data>
+
+    <!-- explicit tree view definition -->
+
+    <record model="ir.ui.view" id="libreria.categoria_tree">
+      <field name="name">libreria.categoria.tree</field>
+      <field name="model">libreria.categoria</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="name"/>
+          <field name="descripcion"/>
+          <field name="libros">
+            <tree>
+              <field name="name"/>
+              <field name="precio"/>
+              <field name="ejemplares"/>
+            </tree>
+          </field>
+        </tree>
+      </field>
+    </record>
+
+    <!-- explicit form view definition -->
+
+    <record model="ir.ui.view" id="libreria.libro_form">
+      <field name="name">libreria.libro.form</field>
+      <field name="model">libreria.libro</field>
+      <field name="arch" type="xml">
+        <form>
+          <group colspan="2" col="2">
+            <field name="categoria"/>
+            <field name="name"/>
+            <field name="descripcion"/>
+            <field name="ejemplares"/>
+            <field name="fecha"/>
+            <field name="precio"/>
+            <field name="segmano"/>
+            <field name="estado"/>
+          </group>
+        </form>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="libreria.libro_search_view">
+      <field name="name">libreria.libro.search</field>
+      <field name="model">libreria.libro</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" string="Titulo"/>
+          <field name="categoria" string="Categoria"/>
+          <filter name="baratos" domain="[('precio','&lt;=',5)]"/>
+        </search>
+      </field>
+    </record>
+
+    <!-- actions opening views on models -->
+
+    <record model="ir.actions.act_window" id="libreria.categoria_action_window">
+      <field name="name">libreria.categoria.action_window</field>
+      <field name="res_model">libreria.categoria</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="libreria.libro_action_window">
+      <field name="name">libreria.libro.action_window</field>
+      <field name="res_model">libreria.categoria</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- menu categories -->
+
+    <menuitem name="Libreria" id="libreria.menu_root" action="libreria.libro_action_window" /> <!-- groups="libreria_manager" -->
+    <menuitem name="Categoria" id="libreria.categoria_menu" parent="libreria.menu_root" action="libreria.categoria_action_window" />
+    <menuitem name="Libros" id="libreria.libro_menu" parent="libreria.menu_root" action="libreria.libro_action_window"/>
+
+  </data>
+</odoo>

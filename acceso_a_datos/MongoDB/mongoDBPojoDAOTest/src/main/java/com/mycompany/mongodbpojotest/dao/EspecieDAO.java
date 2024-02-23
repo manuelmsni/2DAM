@@ -2,124 +2,66 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mongodbfirsttest.dao;
+package com.mycompany.mongodbpojotest.dao;
 
-import com.mycompany.mongodbfirsttest.model.Animal;
-import com.mycompany.mongodbfirsttest.persistence.PersistenceMongoDB;
-import com.mycompany.mongodbfirsttest.util.Constants;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
+import static com.mongodb.client.model.Filters.eq;
+import com.mycompany.mongodbpojotest.model.Especie;
+import com.mycompany.mongodbpojotest.persistence.MongoClientManager;
+import com.mycompany.mongodbpojotest.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.bson.Document;
+import org.bson.types.ObjectId;
 
 /**
  *
  * @author manuelmsni
  */
-public class AnimalDAO implements DAO<Animal> {
+public class EspecieDAO implements DAO<Especie> {
     
-    private static AnimalDAO instance;
+    private static EspecieDAO instance;
     
-    public static AnimalDAO getInstance(){
-        if(instance == null) instance = new AnimalDAO();
+    private final MongoDatabase database;
+    private final MongoCollection<Especie> especiesCollection;
+    
+    public EspecieDAO(){
+        database = MongoClientManager.getInstance().getDatabase(Constants.DATABASE);
+        especiesCollection = database.getCollection(Constants.ESPECIE_TABLE, Especie.class);
+    }
+    
+    public static EspecieDAO getInstance(){
+        if(instance == null) instance = new EspecieDAO();
         return instance;
     }
-    
-    private String uri;
-    private String database;
-    private String table;
-    PersistenceMongoDB persistence;
-    
-    private AnimalDAO(){
-        uri = Constants.DB_URI;
-        database = Constants.USER_DATABASE;
-        table = Constants.USER_TABLE;
-        persistence = new PersistenceMongoDB(uri, database, table);
+
+    @Override
+    public List<Especie> obtenerTodos(){
+        List<Especie> especies = new ArrayList<>();
+        especiesCollection.find().forEach(especies::add);
+        return especies;
     }
     
-    private String[] toArray(String... values){
-        return values;
+    @Override
+    public void crear(Especie especie) {
+        especiesCollection.insertOne(especie);
     }
 
     @Override
-    public void crear(Animal u) {
-        try {
-            String id = persistence.inserta(
-                toArray("name",u.getNombre()),
-                toArray("especie",u.getEspecie())
-            );
-            u.setId(id);
-        } catch (PersistenceMongoDB.CantInsertDocumentException ex) {
-            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public List<Animal> obtenerTodos() {
-        List<Animal> usuarios = new ArrayList<>();
-        try {
-            persistence.obtenTodosLosDocumentos().forEach(doc ->{
-                usuarios.add(new Animal()
-                    .setId(doc.get("_id").toString())
-                    .setNombre(doc.getString("name"))
-                    .setEspecie(doc.getString("especie")));
-            });
-        } catch (PersistenceMongoDB.CantGetDocumentsException ex) {
-            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return usuarios;
-    }
-
-    @Override
-    public void actualizar(Animal u) {
-        try {
-            persistence.actualizaPorId(u.getId(),
-                toArray("name", u.getNombre()),
-                toArray("especie", u.getEspecie()));
-        } catch (PersistenceMongoDB.CantUpdateDocumentException ex) {
-            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public void borrar(String id) {
-        try {
-            persistence.eliminaPorId(id);
-        } catch (PersistenceMongoDB.CantDeleteDocumentException ex) {
-            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @Override
-    public Animal obtener(String id) {
-        try {
-            Document doc = persistence.obtenDocumentoPorId(id);
-            return new Animal(doc.get("_id").toString(), doc.getString("name"),doc.getString("especie"));
-        } catch (PersistenceMongoDB.CantGetDocumentFilteringException ex) {
-            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    public void borrar(ObjectId especieId) {
+        especiesCollection.deleteOne(Filters.eq("_id", especieId));
     }
     
-    public Animal obtenerPorNombre(String nombre) {
-        try {
-            Document doc = persistence.obtenDocumentoPorCampo("name",nombre);
-            return new Animal(doc.get("_id").toString(), doc.getString("name"),doc.getString("especie"));
-        } catch (PersistenceMongoDB.CantGetDocumentFilteringException ex) {
-            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
-    }
-    
-    public Animal obtenerPorEspecie(String especie) {
-        try {
-            Document doc = persistence.obtenDocumentoPorCampo("especie",especie);
-            return new Animal(doc.get("_id").toString(), doc.getString("name"),doc.getString("especie"));
-        } catch (PersistenceMongoDB.CantGetDocumentFilteringException ex) {
-            Logger.getLogger(AnimalDAO.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return null;
+    @Override
+    public void actualizar(Especie especie) {
+        especiesCollection.replaceOne(eq("_id", especie.getId()), especie);
     }
 
+    @Override
+    public Especie obtener(ObjectId id) {
+        return especiesCollection.find(Filters.eq("_id", id)).first();
+    }
+
+ 
 }

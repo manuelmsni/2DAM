@@ -11,14 +11,17 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author manuelmsni
  */
-public class Servidor extends Thread {
+public class Servidor{
     private DatagramSocket servidor;
     private byte[] buffer;
+    DatagramPacket packet;
     public Servidor(int puerto) {
         try {
             buffer = new byte[256];
@@ -29,18 +32,21 @@ public class Servidor extends Thread {
     }
     
     private void print(String msg){
-        System.out.println(msg);
+        System.out.println("Servidor: " + msg);
     }
     
-    @Override
     public void run() {
         try {
             print("Iniciando servidor...");
             print("Ready!");
             print("Puerto " + servidor.getLocalPort() + " en escucha");
             while (servidor != null && !servidor.isClosed()){
-                DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
-                servidor.receive(packet);
+                packet = new DatagramPacket(buffer, buffer.length);
+                try{
+                    servidor.receive(packet);
+                } catch(SocketException e){
+                    break;
+                }
                 attend(packet);
             }
             close();
@@ -64,6 +70,7 @@ public class Servidor extends Thread {
     }
     
     private void attend(DatagramPacket packet){
+        // Sé que para este ejercicio es innecesario el thread, pero es para dejarlo programado para los demás
         new Thread(() -> {
             try {
                 String received = new String(packet.getData(), 0, packet.getLength());
@@ -75,6 +82,7 @@ public class Servidor extends Thread {
                 DatagramPacket responsePacket = new DatagramPacket(responseData, responseData.length, address, port);
                 servidor.send(responsePacket);
                 print("Enviando respuesta: \"" + response + "\"");
+                close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -82,6 +90,7 @@ public class Servidor extends Thread {
     }
     
     public void close(){
+        
         if(servidor != null && !servidor.isClosed()){
             servidor.close();
             print("Socket del servidor cerrado.");
@@ -89,7 +98,7 @@ public class Servidor extends Thread {
     }
     
     public static void main(String[] args){
-        Servidor s = new Servidor(Integer.valueOf(args[2]));
-        s.start();
+        Servidor s = new Servidor(Integer.valueOf(args[0]));
+        s.run();
     }
 }

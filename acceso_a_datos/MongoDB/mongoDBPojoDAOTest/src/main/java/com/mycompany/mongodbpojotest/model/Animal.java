@@ -2,39 +2,39 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mongodbfirsttest.model;
+package com.mycompany.mongodbpojotest.model;
 
-import com.mycompany.mongodbfirsttest.dao.AnimalDAO;
 import java.util.List;
+import org.bson.types.ObjectId;
 
 /**
  *
  * @author manuelmsni
  */
 public class Animal {
-    String id;
+    ObjectId id;
     String nombre;
-    String especie;
+    Especie especie;
 
     public Animal() {
     }
 
-    public Animal(String nombre, String especie) {
+    public Animal(String nombre, Especie especie) {
         this.nombre = nombre;
         this.especie = especie;
     }
 
-    public Animal(String id, String nombre, String especie) {
+    public Animal(ObjectId id, String nombre, Especie especie) {
         this.id = id;
         this.nombre = nombre;
         this.especie = especie;
     }
 
-    public String getId() {
+    public ObjectId getId() {
         return id;
     }
 
-    public Animal setId(String id) {
+    public Animal setId(ObjectId id) {
         this.id = id;
         return this;
     }
@@ -48,21 +48,21 @@ public class Animal {
         return this;
     }
 
-    public String getEspecie() {
+    public Especie getEspecie() {
         return especie;
     }
 
-    public Animal setEspecie(String especie) {
+    public Animal setEspecie(Especie especie) {
         this.especie = especie;
         return this;
     }
 
     @Override
     public String toString() {
-        return "{\"id\":\"" + id + "\", \"nombre\":\"" + nombre + "\", \"especie\":\"" + especie + "\"}";
+        return "{\"id\":\"" + id.toString() + "\", \"nombre\":\"" + nombre + "\", \"especie\":\"" + especie.toString() + "\"}";
     }
     
-    public static String formatearUsuarios(List<Animal> animales){
+    public static String formatearAnimales(List<Animal> animales){
         String ls = System.getProperty("line.separator");
         StringBuilder sb = new StringBuilder();
         sb.append("{");

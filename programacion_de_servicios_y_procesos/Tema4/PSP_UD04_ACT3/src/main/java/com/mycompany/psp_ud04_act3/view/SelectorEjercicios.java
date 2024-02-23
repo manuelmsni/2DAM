@@ -4,6 +4,8 @@
  */
 package com.mycompany.psp_ud04_act3.view;
 
+import com.mycompany.psp_ud04_act3.ej1.Ej1;
+
 /**
  *
  * @author manuelmsni
@@ -43,7 +45,7 @@ public class SelectorEjercicios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        Ej1.main(null);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

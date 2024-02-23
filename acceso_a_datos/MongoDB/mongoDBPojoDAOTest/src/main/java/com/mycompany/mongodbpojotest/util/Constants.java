@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mongodbfirsttest.util;
+package com.mycompany.mongodbpojotest.util;
 
 /**
  *
@@ -18,6 +18,7 @@ public class Constants {
     /**
      * Constantes de la base de datos
      */
-    public static final String USER_DATABASE = "test";
-    public static final String USER_TABLE = "animales";
+    public static final String DATABASE = "test";
+    public static final String ANIMAL_TABLE = "animales";
+    public static final String ESPECIE_TABLE = "animales";
 }

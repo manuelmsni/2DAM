@@ -2,13 +2,14 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mongodbfirsttest.view;
+package com.mycompany.mongodbpojotest.view;
 
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.bson.types.ObjectId;
 
 public class Vista implements Closeable {
     
@@ -41,7 +42,7 @@ public class Vista implements Closeable {
             if(solicitado == null) valido = false;
             else if(solicitado.equals(OPCION_SALIR)) return null;
             else valido = !solicitado.isBlank();
-            if(!valido) System.out.println("No se ha introducido ningún valor.");
+            if(!valido) imprime("No se ha introducido ningún valor.");
         } while (!valido);
         return solicitado;
     }
@@ -56,7 +57,7 @@ public class Vista implements Closeable {
                 Integer.parseInt(solicitado);
                 valido = true;
             }catch (NumberFormatException e){
-                System.out.println("El valor introducido no es un número entero.");
+                imprime("El valor introducido no es un número entero.");
             }
         } while (!valido);
         return Integer.valueOf(solicitado);
@@ -70,7 +71,7 @@ public class Vista implements Closeable {
             solicitado = solicitaInt(mensaje);
             if(solicitado == null) return null;
             valido = solicitado >= min && solicitado <= max;
-            if(!valido) System.out.println("El número introducido no está en el rango permitido.");
+            if(!valido) imprime("El número introducido no está en el rango permitido.");
         } while (!valido);
         return solicitado;
     }
@@ -85,7 +86,7 @@ public class Vista implements Closeable {
             if (email == null) return null;
             Matcher matcher = pattern.matcher(email);
             valido = matcher.matches();
-            if (!valido) System.out.println("El correo electrónico introducido no tiene un formato válido.");
+            if (!valido) imprime("El correo electrónico introducido no tiene un formato válido.");
         } while (!valido);
         return email;
     }
@@ -98,16 +99,28 @@ public class Vista implements Closeable {
             if (respuesta == null) return null;
             respuesta = respuesta.trim().toLowerCase();
             valido = respuesta.equals("sí") || respuesta.equals("si") || respuesta.equals("no");
-            if (!valido) System.out.println("Respuesta no válida. Por favor, responde 'sí' o 'no'.");
+            if (!valido) imprime("Respuesta no válida. Por favor, responde 'sí' o 'no'.");
         } while (!valido);
         return respuesta.equals("sí") || respuesta.equals("si");
     }
-
+    
+    public ObjectId solicitaObjectId(String mensaje) {
+        String respuesta;
+        boolean valido;
+        do{
+            respuesta = solicitaString(mensaje);
+            if (respuesta == null) return null;
+            respuesta = respuesta.trim();
+            valido = ObjectId.isValid(mensaje);
+            if (!valido) imprime("No es un id válido.");
+        } while (!valido);
+        return new ObjectId(respuesta);
+    }
 
     public Integer menu(){
         imprime("Elige una opción:");
         for (int i = 0; i < OPCIONES.length; i++) {
-            System.out.println((i+1) + ".- " + OPCIONES[i]);
+            imprime((i+1) + ".- " + OPCIONES[i]);
         }
         imprime("[Introduce \"" + OPCION_SALIR + "\" para salir]");
         return solicitaIntEnIntervaloCerrado("Introduce un número entre 1 y " + OPCIONES.length + " (incluidos).", 1, OPCIONES.length);

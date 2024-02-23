@@ -8,7 +8,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.util.Scanner;
 
 /**
  *
@@ -33,12 +32,13 @@ public class Cliente extends Thread {
     }
     
     private void print(String msg){
-        System.out.println(msg);
+        System.out.println("Cliente: " + msg);
     }
     
     @Override
     public void run() {
-        sendCommand(command);
+        print("Respuesta obtenida: " + sendCommand(command));
+        close();
     }
 
     public String sendCommand(String command) {
@@ -47,6 +47,7 @@ public class Cliente extends Thread {
             DatagramPacket packet = new DatagramPacket(buf, buf.length, address, port);
             socket.send(packet);
             print("Comando enviado: " + command);
+            buf = new byte[256];
             packet = new DatagramPacket(buf, buf.length);
             socket.receive(packet);
             String received = new String(packet.getData(), 0, packet.getLength());

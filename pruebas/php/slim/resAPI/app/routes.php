@@ -39,4 +39,5 @@ return function (App $app) {
         $group->get('', ListUsersAction::class)->add(new JwtMiddleware(['admin', 'user']));
         $group->get('/{id}', ViewUserAction::class)->add(new JwtMiddleware(['admin']));
     });
+    
 };

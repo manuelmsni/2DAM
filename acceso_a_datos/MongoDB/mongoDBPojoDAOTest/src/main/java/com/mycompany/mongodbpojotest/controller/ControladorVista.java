@@ -2,14 +2,16 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mongodbfirsttest.controller;
+package com.mycompany.mongodbpojotest.controller;
 
-import com.mycompany.mongodbfirsttest.MongoDBFirstTest;
-import com.mycompany.mongodbfirsttest.dao.AnimalDAO;
-import com.mycompany.mongodbfirsttest.model.Animal;
-import com.mycompany.mongodbfirsttest.view.Vista;
+import com.mycompany.mongodbpojotest.dao.AnimalDAO;
+import com.mycompany.mongodbpojotest.dao.EspecieDAO;
+import com.mycompany.mongodbpojotest.model.Animal;
+import com.mycompany.mongodbpojotest.model.Especie;
+import com.mycompany.mongodbpojotest.view.Vista;
 import java.io.IOException;
 import java.util.logging.Logger;
+import org.bson.types.ObjectId;
 
 /**
  *
@@ -17,7 +19,7 @@ import java.util.logging.Logger;
  */
 public class ControladorVista {
     
-    private static final Logger log = Logger.getLogger(MongoDBFirstTest.class.getName());
+    private static final Logger log = Logger.getLogger(ControladorVista.class.getName());
     private Vista v;
     
     public ControladorVista(Vista v){
@@ -58,58 +60,63 @@ public class ControladorVista {
                 imprimeAnimales();
                 break;
             case 2:
-                crearAnimal();
+                imprimeEspecies();
                 break;
             case 3:
-                eliminarAnimal();
+                Especie e = obtenerEspecie();
+                crearAnimal(e);
                 break;
             case 4:
-                actualizarAnimal();
+                eliminarAnimal();
                 break;
             case 5:
-                imprimeAnimalPorNombre();
-                break;
-            case 6:
-                imprimeAnimalPorEspecie();
+                actualizarAnimal();
                 break;
         }
     }
     
     private void imprimeAnimales() {
-        v.imprime(Animal.formatearUsuarios(AnimalDAO.getInstance().obtenerTodos()));
+        v.imprime(Animal.formatearAnimales(AnimalDAO.getInstance().obtenerTodos()));
+    }
+    
+    private void imprimeEspecies() {
+        v.imprime(Especie.formatearEspecies(EspecieDAO.getInstance().obtenerTodos()));
     }
 
-    private void crearAnimal() {
+    private void crearAnimal(Especie e) {
         AnimalDAO.getInstance().crear(new Animal(
                 v.solicitaString("Introduce el nombre:"),
-                v.solicitaString("Introduce la especie:")
+                e
         ));
     }
 
     private void eliminarAnimal() {
-        AnimalDAO.getInstance().borrar(v.solicitaString("Introduce el id:"));
+        AnimalDAO.getInstance().borrar(v.solicitaObjectId("Introduce el id:"));
     }
 
     private void actualizarAnimal() {
         boolean actualizado = false;
-        Animal u = AnimalDAO.getInstance().obtener(v.solicitaString("Introduce el id:"));
+        Animal u = AnimalDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
         if(v.solicitaConfirmacion("¿Deseas cambiar el nombre?")){
             u.setNombre(v.solicitaString("Introduce el nuevo nombre:"));
             actualizado = true;
         }
         if(v.solicitaConfirmacion("¿Deseas cambiar la especie?")){
-            u.setEspecie(v.solicitaString("Introduce la nueva especie:"));
+            u.setEspecie(obtenerEspecie());
             actualizado = true;
         }
         if(actualizado) AnimalDAO.getInstance().actualizar(u);
     }
     
-    private void imprimeAnimalPorNombre() {
-        v.imprime(AnimalDAO.getInstance().obtenerPorNombre(v.solicitaString("Introduce el nombre:")).toString());
+
+    private Especie obtenerEspecie() {
+        return EspecieDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
+    }
+    
+    private Animal obtenerAnimal() {
+        return AnimalDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
     }
 
-    private void imprimeAnimalPorEspecie() {
-        v.imprime(AnimalDAO.getInstance().obtenerPorEspecie(v.solicitaString("Introduce la especie:")).toString());
-    }
+    
 
 }

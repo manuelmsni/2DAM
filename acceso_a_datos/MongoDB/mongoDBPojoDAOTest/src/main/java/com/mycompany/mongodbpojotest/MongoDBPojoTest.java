@@ -2,20 +2,19 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  */
 
-package com.mycompany.mongodbfirsttest;
+package com.mycompany.mongodbpojotest;
 
-import com.mycompany.mongodbfirsttest.controller.ControladorVista;
-import com.mycompany.mongodbfirsttest.model.Animal;
-import com.mycompany.mongodbfirsttest.view.Vista;
+import com.mycompany.mongodbpojotest.controller.ControladorVista;
+import com.mycompany.mongodbpojotest.view.Vista;
 import java.util.logging.Logger;
 
 /**
  *
  * @author Vespertino
  */
-public class MongoDBFirstTest {
+public class MongoDBPojoTest {
     
-    private static final Logger log = Logger.getLogger(MongoDBFirstTest.class.getName());
+    private static final Logger log = Logger.getLogger(MongoDBPojoTest.class.getName());
 
     public static void main(String[] args) {
         Vista v = new Vista();
