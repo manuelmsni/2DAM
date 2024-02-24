@@ -7,8 +7,6 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.net.MulticastSocket;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  *
@@ -39,32 +37,16 @@ public class Servidor{
     public void run() {
         try {
             print("Ready!");
-            
-            
+            sendMessaje("Hola");
             close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
     
-    public void sendMessaje(String msg){
-        DatagramPacket packet = 
-                new DatagramPacket(msg.getBytes(), msg.length(), grupo, puerto);
-        
-    }
-    
-    private String processCommand(String command) {
-        switch (command) {
-            case "getdate":
-                return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
-            case "gethour":
-                return new SimpleDateFormat("HH:mm:ss").format(new Date());
-            default:
-                if (command.startsWith("getmayus(\"") && command.endsWith("\")")) {
-                    return command.substring(10, command.length() - 2).toUpperCase();
-                }
-                return "Comando no reconocido";
-        }
+    public void sendMessaje(String msg) throws IOException{
+        DatagramPacket packet = new DatagramPacket(msg.getBytes(), msg.length(), grupo, puerto);
+        servidor.send(packet);
     }
     
     public void close(){
@@ -76,7 +58,7 @@ public class Servidor{
     }
     
     public static void main(String[] args){
-        Servidor s = new Servidor(Integer.valueOf(args[0]));
+        Servidor s = new Servidor(Integer.valueOf(args[0]), args[1]);
         s.run();
     }
 }
