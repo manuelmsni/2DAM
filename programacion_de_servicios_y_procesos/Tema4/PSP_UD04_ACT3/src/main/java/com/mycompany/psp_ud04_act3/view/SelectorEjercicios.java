@@ -4,6 +4,7 @@
  */
 package com.mycompany.psp_ud04_act3.view;
 
+import com.mycompany.psp_ud04_act3.Ej4.Ej4;
 import com.mycompany.psp_ud04_act3.ej1.Ej1;
 import com.mycompany.psp_ud04_act3.ej2.Ej2;
 import com.mycompany.psp_ud04_act3.ej3.Ej3;
@@ -33,6 +34,7 @@ public class SelectorEjercicios extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new java.awt.FlowLayout());
@@ -61,6 +63,14 @@ public class SelectorEjercicios extends javax.swing.JFrame {
         });
         getContentPane().add(jButton3);
 
+        jButton4.setText("Ej4");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton4);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -75,6 +85,10 @@ public class SelectorEjercicios extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Ej3.main(null);
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        Ej4.main(null);
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -115,5 +129,6 @@ public class SelectorEjercicios extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
     // End of variables declaration//GEN-END:variables
 }

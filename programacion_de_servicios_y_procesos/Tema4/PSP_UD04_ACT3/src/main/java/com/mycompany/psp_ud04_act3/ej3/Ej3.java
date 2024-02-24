@@ -38,5 +38,4 @@ public class Ej3 {
             ex.printStackTrace();
         }
     }
-    
 }
