@@ -57,20 +57,40 @@ public class ControladorVista {
     private void router(int opcion){
         switch (opcion){
             case 1:
-                imprimeAnimales();
-                break;
-            case 2:
                 imprimeEspecies();
                 break;
+            case 2:
+                imprimeAnimales();
+                break;
             case 3:
-                Especie e = obtenerEspecie();
-                crearAnimal(e);
+                crearEspecie();
                 break;
             case 4:
-                eliminarAnimal();
+                crearAnimal();
                 break;
             case 5:
+                eliminarEspecie();
+                break;
+            case 6:
+                eliminarAnimal();
+                break;
+            case 7:
+                actualizarEspecie();
+                break;
+            case 8:
                 actualizarAnimal();
+                break;
+            case 9:
+                buscarEspeciePorId();
+                break;
+            case 10:
+                buscarAnimalPorId();
+                break;
+            case 11:
+                buscarEspeciePorNombre();
+                break;
+            case 12:
+                buscarAnimalPorNombre();
                 break;
         }
     }
@@ -82,12 +102,32 @@ public class ControladorVista {
     private void imprimeEspecies() {
         v.imprime(Especie.formatearEspecies(EspecieDAO.getInstance().obtenerTodos()));
     }
+    
+    private void crearEspecie(){
+        EspecieDAO.getInstance().crear(new Especie(v.solicitaString("Introduce el nombre:")));
+    }
+    
+    private Especie obtenerEspecie() {
+        return EspecieDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
+    }
+    
+    private void eliminarEspecie(){
+        EspecieDAO.getInstance().borrar(v.solicitaObjectId("Introduce el id:"));
+    }
+    
+    private void actualizarEspecie(){
+        
+    }
 
-    private void crearAnimal(Especie e) {
+    private void crearAnimal() {
         AnimalDAO.getInstance().crear(new Animal(
                 v.solicitaString("Introduce el nombre:"),
-                e
+                obtenerEspecie()
         ));
+    }
+    
+    private Animal obtenerAnimal() {
+        return AnimalDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
     }
 
     private void eliminarAnimal() {
@@ -107,16 +147,21 @@ public class ControladorVista {
         }
         if(actualizado) AnimalDAO.getInstance().actualizar(u);
     }
-    
 
-    private Especie obtenerEspecie() {
-        return EspecieDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
-    }
-    
-    private Animal obtenerAnimal() {
-        return AnimalDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
+    private void buscarEspeciePorId() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    
+    private void buscarAnimalPorId() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 
+    private void buscarAnimalPorNombre() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    private void buscarEspeciePorNombre() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
 }

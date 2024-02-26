@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
+import com.mycompany.mongodbpojotest.db.DBManager;
 import com.mycompany.mongodbpojotest.model.Animal;
 import com.mycompany.mongodbpojotest.persistence.MongoClientManager;
 import com.mycompany.mongodbpojotest.util.Constants;
@@ -23,12 +24,10 @@ public class AnimalDAO implements DAO<Animal> {
     
     private static AnimalDAO instance;
     
-    private final MongoDatabase database;
     private final MongoCollection<Animal> animalesCollection;
     
     public AnimalDAO(){
-        database = MongoClientManager.getInstance().getDatabase(Constants.DATABASE);
-        animalesCollection = database.getCollection(Constants.ANIMAL_TABLE, Animal.class);
+        animalesCollection = DBManager.getInstance().getAnimalesCollection();
     }
     
     public static AnimalDAO getInstance(){
@@ -47,10 +46,10 @@ public class AnimalDAO implements DAO<Animal> {
     public void crear(Animal animal) {
         animalesCollection.insertOne(animal);
     }
-
+    
     @Override
-    public void borrar(ObjectId animalId) {
-        animalesCollection.deleteOne(Filters.eq("_id", animalId));
+    public Animal obtener(ObjectId id) {
+        return animalesCollection.find(Filters.eq("_id", id)).first();
     }
     
     @Override
@@ -59,7 +58,8 @@ public class AnimalDAO implements DAO<Animal> {
     }
 
     @Override
-    public Animal obtener(ObjectId id) {
-        return animalesCollection.find(Filters.eq("_id", id)).first();
+    public void borrar(ObjectId animalId) {
+        animalesCollection.deleteOne(Filters.eq("_id", animalId));
     }
+
 }

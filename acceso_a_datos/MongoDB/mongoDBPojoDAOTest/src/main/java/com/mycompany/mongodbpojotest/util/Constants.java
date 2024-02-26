@@ -13,12 +13,12 @@ public class Constants {
      * Constantes de conexión
      */
     public static final String HOST = "localhost";
-    public static final String PORT = "57017";
+    public static final String PORT = "6969";
     public static final String DB_URI = "mongodb://" + HOST + ":" + PORT;
     /**
      * Constantes de la base de datos
      */
     public static final String DATABASE = "test";
     public static final String ANIMAL_TABLE = "animales";
-    public static final String ESPECIE_TABLE = "animales";
+    public static final String ESPECIE_TABLE = "especies";
 }

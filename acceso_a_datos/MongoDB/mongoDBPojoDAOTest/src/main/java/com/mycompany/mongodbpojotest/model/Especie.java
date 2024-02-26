@@ -4,6 +4,7 @@
  */
 package com.mycompany.mongodbpojotest.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
 
@@ -15,15 +16,23 @@ public class Especie {
     ObjectId id;
     String nombre;
     List<Animal> animales;
+    
+    public Especie(){}
 
+    public Especie(String nombre) {
+        this.nombre = nombre;
+        this.animales = new ArrayList<Animal>();
+    }
+    
     public Especie(String nombre, List<Animal> animales) {
         this.nombre = nombre;
         this.animales = animales;
     }
 
-    public Especie(ObjectId id, String nombre) {
+    public Especie(ObjectId id, String nombre, List<Animal> animales) {
         this.id = id;
         this.nombre = nombre;
+        this.animales = animales;
     }
 
     public ObjectId getId() {

@@ -16,6 +16,6 @@ public interface DAO<T> {
     void crear(T objeto);
     List<T> obtenerTodos();
     void actualizar(T objeto);
-    void borrar(ObjectId id);
+    void borrar(T objeto);
     T obtener(ObjectId id);
 }

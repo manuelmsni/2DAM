@@ -8,6 +8,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
+import com.mycompany.mongodbpojotest.db.DBManager;
 import com.mycompany.mongodbpojotest.model.Especie;
 import com.mycompany.mongodbpojotest.persistence.MongoClientManager;
 import com.mycompany.mongodbpojotest.util.Constants;
@@ -23,12 +24,11 @@ public class EspecieDAO implements DAO<Especie> {
     
     private static EspecieDAO instance;
     
-    private final MongoDatabase database;
+    
     private final MongoCollection<Especie> especiesCollection;
     
     public EspecieDAO(){
-        database = MongoClientManager.getInstance().getDatabase(Constants.DATABASE);
-        especiesCollection = database.getCollection(Constants.ESPECIE_TABLE, Especie.class);
+        especiesCollection = DBManager.getInstance().getEspeciesCollection();
     }
     
     public static EspecieDAO getInstance(){
@@ -49,8 +49,8 @@ public class EspecieDAO implements DAO<Especie> {
     }
 
     @Override
-    public void borrar(ObjectId especieId) {
-        especiesCollection.deleteOne(Filters.eq("_id", especieId));
+    public void borrar(Especie especie) {
+        especiesCollection.deleteOne(Filters.eq("_id", especie.getId()));
     }
     
     @Override
@@ -63,5 +63,4 @@ public class EspecieDAO implements DAO<Especie> {
         return especiesCollection.find(Filters.eq("_id", id)).first();
     }
 
- 
 }

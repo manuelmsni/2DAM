@@ -14,9 +14,13 @@ import org.bson.types.ObjectId;
 public class Vista implements Closeable {
     
     public static final String[] OPCIONES = {
+        "Listar especies",
         "Listar animales",
+        "Crear especie",
         "Crear animal",
+        "Eliminar especie",
         "Eliminar animal",
+        "Actualizar especie",
         "Actualizar animal",
         "Busca animal por nombre",
         "Busca animal por especie"
@@ -107,13 +111,13 @@ public class Vista implements Closeable {
     public ObjectId solicitaObjectId(String mensaje) {
         String respuesta;
         boolean valido;
-        do{
+        //do{
             respuesta = solicitaString(mensaje);
             if (respuesta == null) return null;
             respuesta = respuesta.trim();
-            valido = ObjectId.isValid(mensaje);
-            if (!valido) imprime("No es un id válido.");
-        } while (!valido);
+           // valido = ObjectId.isValid(mensaje);
+            //if (!valido) imprime("No es un id válido.");
+        //} while (!valido);
         return new ObjectId(respuesta);
     }
 

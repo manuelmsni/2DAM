@@ -16,8 +16,7 @@ public class Animal {
     String nombre;
     Especie especie;
 
-    public Animal() {
-    }
+    public Animal() {}
 
     public Animal(String nombre, Especie especie) {
         this.nombre = nombre;
