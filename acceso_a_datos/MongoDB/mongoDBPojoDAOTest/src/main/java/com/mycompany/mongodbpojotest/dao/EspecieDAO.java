@@ -5,13 +5,9 @@
 package com.mycompany.mongodbpojotest.dao;
 
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
-import static com.mongodb.client.model.Filters.eq;
 import com.mycompany.mongodbpojotest.db.DBManager;
 import com.mycompany.mongodbpojotest.model.Especie;
-import com.mycompany.mongodbpojotest.persistence.MongoClientManager;
-import com.mycompany.mongodbpojotest.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
 import org.bson.types.ObjectId;
@@ -23,7 +19,6 @@ import org.bson.types.ObjectId;
 public class EspecieDAO implements DAO<Especie> {
     
     private static EspecieDAO instance;
-    
     
     private final MongoCollection<Especie> especiesCollection;
     
@@ -55,7 +50,7 @@ public class EspecieDAO implements DAO<Especie> {
     
     @Override
     public void actualizar(Especie especie) {
-        especiesCollection.replaceOne(eq("_id", especie.getId()), especie);
+        especiesCollection.replaceOne(Filters.eq("_id", especie.getId()), especie);
     }
 
     @Override

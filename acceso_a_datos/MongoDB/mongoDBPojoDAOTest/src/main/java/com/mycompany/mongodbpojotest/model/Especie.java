@@ -13,9 +13,10 @@ import org.bson.types.ObjectId;
  * @author Vespertino
  */
 public class Especie {
-    ObjectId id;
-    String nombre;
-    List<Animal> animales;
+    
+    private ObjectId id;
+    private String nombre;
+    private List<Animal> animales;
     
     public Especie(){}
 

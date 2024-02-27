@@ -5,15 +5,29 @@
 package com.mycompany.mongodbpojotest.dao;
 
 import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.model.Filters;
 import static com.mongodb.client.model.Filters.eq;
 import com.mycompany.mongodbpojotest.db.DBManager;
 import com.mycompany.mongodbpojotest.model.Animal;
-import com.mycompany.mongodbpojotest.persistence.MongoClientManager;
-import com.mycompany.mongodbpojotest.util.Constants;
 import java.util.ArrayList;
 import java.util.List;
+import org.bson.types.ObjectId;
+
+/**
+ *
+ * @author manuelmsni
+ */
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.UpdateOptions;
+import com.mongodb.client.model.Updates;
+import com.mycompany.mongodbpojotest.db.DBManager;
+import com.mycompany.mongodbpojotest.model.Animal;
+import com.mycompany.mongodbpojotest.model.Especie;
+import java.util.ArrayList;
+import java.util.List;
+import org.bson.Document;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
@@ -24,10 +38,10 @@ public class AnimalDAO implements DAO<Animal> {
     
     private static AnimalDAO instance;
     
-    private final MongoCollection<Animal> animalesCollection;
+    private final MongoCollection<Especie> especiesCollection;
     
     public AnimalDAO(){
-        animalesCollection = DBManager.getInstance().getAnimalesCollection();
+        especiesCollection = DBManager.getInstance().getEspeciesCollection();
     }
     
     public static AnimalDAO getInstance(){
@@ -38,28 +52,54 @@ public class AnimalDAO implements DAO<Animal> {
     @Override
     public List<Animal> obtenerTodos(){
         List<Animal> animales = new ArrayList<>();
-        animalesCollection.find().forEach(animales::add);
+        especiesCollection.find().forEach(especie -> {
+            List<Animal> listaAnimales = especie.getAnimales();
+            if (listaAnimales != null) {
+                listaAnimales.forEach(a->{
+                    a.setEspecie(especie);
+                    animales.add(a);
+                });
+            }
+        });
         return animales;
     }
     
     @Override
     public void crear(Animal animal) {
-        animalesCollection.insertOne(animal);
+        animal.setId(new ObjectId());
+        especiesCollection.updateOne(
+                Filters.eq("_id", animal.getEspecie().getId()),
+                Updates.push("animales", animal)
+        );
     }
     
     @Override
     public Animal obtener(ObjectId id) {
-        return animalesCollection.find(Filters.eq("_id", id)).first();
+        for (Especie especie : especiesCollection.find()) {
+            for (Animal animal : especie.getAnimales()) {
+                if (animal.getId().equals(id)) {
+                    return animal;
+                }
+            }
+        }
+        return null;
     }
     
     @Override
     public void actualizar(Animal animal) {
-        animalesCollection.replaceOne(eq("_id", animal.getId()), animal);
+        especiesCollection.updateOne(
+                Filters.eq("animales._id", animal.getId()), 
+                Updates.set("animales.$[elem]", animal),
+                new UpdateOptions().arrayFilters(List.of(Filters.eq("elem._id", animal.getId())))
+        );
     }
 
     @Override
-    public void borrar(ObjectId animalId) {
-        animalesCollection.deleteOne(Filters.eq("_id", animalId));
+    public void borrar(Animal animal) {
+        especiesCollection.updateOne(
+                Filters.eq("animales._id", animal.getId()), 
+                Updates.pull("animales", new Document("_id", animal.getId()))
+        );
     }
 
 }

@@ -31,11 +31,6 @@ public class DBManager {
         return instance;
     }
     
-    public MongoCollection getAnimalesCollection(){
-        if(animalesCollection == null) animalesCollection = database.getCollection(Constants.ANIMAL_TABLE, Animal.class);
-        return animalesCollection;
-    }
-    
     public MongoCollection getEspeciesCollection(){
         if(especiesCollection == null) especiesCollection = database.getCollection(Constants.ESPECIE_TABLE, Especie.class);
         return especiesCollection;

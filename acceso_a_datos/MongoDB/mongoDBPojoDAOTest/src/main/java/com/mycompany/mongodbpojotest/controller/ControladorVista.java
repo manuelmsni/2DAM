@@ -108,11 +108,11 @@ public class ControladorVista {
     }
     
     private Especie obtenerEspecie() {
-        return EspecieDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
+        return EspecieDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id de la especie:"));
     }
     
     private void eliminarEspecie(){
-        EspecieDAO.getInstance().borrar(v.solicitaObjectId("Introduce el id:"));
+        EspecieDAO.getInstance().borrar(obtenerEspecie());
     }
     
     private void actualizarEspecie(){
@@ -121,17 +121,17 @@ public class ControladorVista {
 
     private void crearAnimal() {
         AnimalDAO.getInstance().crear(new Animal(
-                v.solicitaString("Introduce el nombre:"),
+                v.solicitaString("Introduce el nombre de animal:"),
                 obtenerEspecie()
         ));
     }
     
     private Animal obtenerAnimal() {
-        return AnimalDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id:"));
+        return AnimalDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id del animal:"));
     }
 
     private void eliminarAnimal() {
-        AnimalDAO.getInstance().borrar(v.solicitaObjectId("Introduce el id:"));
+        AnimalDAO.getInstance().borrar(obtenerAnimal());
     }
 
     private void actualizarAnimal() {

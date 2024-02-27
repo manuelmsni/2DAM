@@ -7,14 +7,16 @@ package com.mycompany.mongodbpojotest.model;
 import java.util.List;
 import org.bson.types.ObjectId;
 
+
 /**
  *
  * @author manuelmsni
  */
 public class Animal {
-    ObjectId id;
-    String nombre;
-    Especie especie;
+    
+    private ObjectId id;
+    private String nombre;
+    private transient Especie especie;
 
     public Animal() {}
 
