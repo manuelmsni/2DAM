@@ -54,6 +54,7 @@ public class Servidor{
     String[] banedWords = {"caca", "feo"};
     
     // Comprueba si el mensaje tiene palabras malsonantes
+    // Lo del filtro no lo pedías pero era una prueba que quería hacer
     private boolean containsBadWords(String msg){
         for(String s : banedWords){
             if(msg.contains(s)) return true;
