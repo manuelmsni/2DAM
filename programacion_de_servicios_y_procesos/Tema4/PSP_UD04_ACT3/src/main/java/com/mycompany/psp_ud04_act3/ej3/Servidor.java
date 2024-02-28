@@ -51,12 +51,23 @@ public class Servidor{
         System.out.println("Servidor: " + msg);
     }
     
+    String[] banedWords = {"caca", "feo"};
+    
+    // Comprueba si el mensaje tiene palabras malsonantes
+    private boolean containsBadWords(String msg){
+        for(String s : banedWords){
+            if(msg.contains(s)) return true;
+        }
+        return false;
+    }
+    
     public void run() {
         try {
             print("Ready!");
             countdown();
             while(!socketServidor.isClosed()){
-                sendMessaje(reciveMessaje());
+                String msg = reciveMessaje();
+                if(!containsBadWords(msg)) sendMessaje(msg);
             }
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -12,11 +12,11 @@ import java.io.IOException;
  */
 public class Ej3 {
     public static void main(String[] args){
-        int serverPort = 60019;
+        int serverPort = 6009;
         String serverAddress = "localhost";
-        int multicastPort = 60020;
+        int multicastPort = 6000;
         String multicastAddress = "225.0.0.1";
-        System.out.println("Ej2");
+        System.out.println("Ej3");
         activateServer(serverPort, multicastPort, multicastAddress);
         activateClient(serverPort, serverAddress,multicastPort, multicastAddress, "Juan");
         activateClient(serverPort, serverAddress,multicastPort, multicastAddress, "Pepe");
