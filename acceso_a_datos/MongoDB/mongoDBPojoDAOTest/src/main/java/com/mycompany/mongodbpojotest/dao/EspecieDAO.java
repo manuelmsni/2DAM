@@ -34,7 +34,7 @@ public class EspecieDAO implements DAO<Especie> {
     @Override
     public List<Especie> obtenerTodos(){
         List<Especie> especies = new ArrayList<>();
-        especiesCollection.find().forEach(especies::add);
+        especiesCollection.find().into(especies);
         return especies;
     }
     

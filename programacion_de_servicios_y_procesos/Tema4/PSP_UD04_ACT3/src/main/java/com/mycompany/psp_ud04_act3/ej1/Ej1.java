@@ -14,10 +14,10 @@ import java.io.InputStream;
 public class Ej1 {
     
     public static void main(String[] args){
-        int puerto = 6001;
+        int puerto = 5002;
         System.out.println("Ej1");
         activateServer(puerto);
-        activateClient("localhost", puerto, "getdate");
+        newClient(puerto);
     }
     
     public static void activateServer(int portNumber){
@@ -32,16 +32,9 @@ public class Ej1 {
         }
     }
     
-    public static void activateClient(String direccion, int portNumber, String comando){
-        String classpath = System.getProperty("java.class.path");
-        String className = "com.mycompany.psp_ud04_act3.ej1.Cliente";
-        ProcessBuilder pb = new ProcessBuilder("java", "-cp", classpath, className, direccion, String.valueOf(portNumber), comando);
-        pb.inheritIO();
-        try {
-            Process p = pb.start();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+    public static void newClient(int puerto){
+        Cliente c = new Cliente("localhost", puerto);
+        
+        c.start();
     }
-    
 }

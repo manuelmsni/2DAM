@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.util.Scanner;
 
 /**
  *
@@ -20,7 +21,7 @@ public class Cliente extends Thread {
     private byte[] buf;
     private String command;
 
-    public Cliente(String address, int port, String command) {
+    public Cliente(String address, int port) {
         try {
             this.socket = new DatagramSocket();
             this.address = InetAddress.getByName(address);
@@ -34,11 +35,21 @@ public class Cliente extends Thread {
     private void print(String msg){
         System.out.println("Cliente: " + msg);
     }
-    
+    String[] commands = {"getdate", "gethour","getmayus()", "stop"};
     @Override
     public void run() {
-        print("Respuesta obtenida: " + sendCommand(command));
-        close();
+        Scanner sc = new Scanner(System.in);
+        while(!socket.isClosed()){
+            print("Introduce el comando: ");
+            for(String s : commands){
+                print(" - " + s);
+            }
+            command = sc.nextLine();
+            print("Respuesta obtenida: " + sendCommand(command));
+            if(command.equals("stop")){
+                close();
+            }
+        }
     }
 
     public String sendCommand(String command) {
@@ -62,10 +73,5 @@ public class Cliente extends Thread {
             socket.close();
             print("Socket del cliente cerrado.");
         }
-    }
-    
-    public static void main(String[] args){
-        Cliente c = new Cliente(args[0], Integer.valueOf(args[1]), args[2]);
-        c.start();
     }
 }

@@ -12,9 +12,9 @@ import java.io.IOException;
  */
 public class Ej3 {
     public static void main(String[] args){
-        int serverPort = 60014;
+        int serverPort = 60019;
         String serverAddress = "localhost";
-        int multicastPort = 60015;
+        int multicastPort = 60020;
         String multicastAddress = "225.0.0.1";
         System.out.println("Ej2");
         activateServer(serverPort, multicastPort, multicastAddress);

@@ -160,14 +160,18 @@ public class FormCliente extends javax.swing.JFrame {
         // Recoger datos del formulario
         String nombreStr = nombre.getText();
         String apellidosStr = apellidos.getText();
-        int edadInt = Integer.parseInt(edad.getText()); // Asegúrate de manejar NumberFormatException
+        int edadInt = Integer.parseInt(edad.getText()); 
         String sexoStr = sexo.getText();
         Persona persona = new Persona(nombreStr, apellidosStr, edadInt, sexoStr);
 
         // Datos del servidor
         String hostStr = host.getText();
-        int puertoInt = Integer.parseInt(puerto.getText()); // Igualmente, manejar NumberFormatException
-
+        int puertoInt = Integer.parseInt(puerto.getText()); 
+        
+        System.out.println("+"+hostStr+"+");
+        System.out.println("+"+puertoInt +"+");
+        
+        
         // Crear y usar el cliente para enviar el objeto
         Cliente cliente = new Cliente(hostStr, puertoInt);
         cliente.enviarDatos(persona);

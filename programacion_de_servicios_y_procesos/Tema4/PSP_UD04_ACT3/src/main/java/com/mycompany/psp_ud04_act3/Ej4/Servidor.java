@@ -4,8 +4,6 @@
  */
 package com.mycompany.psp_ud04_act3.Ej4;
 
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
@@ -26,12 +24,16 @@ public class Servidor extends Thread {
     }
 
     public void iniciar() {
-        try (ServerSocket serverSocket = new ServerSocket(puerto)) {
-            server = serverSocket;
+        try{
+            server = new ServerSocket(puerto);
             start();
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+    
+    private void print(String msg){
+        System.out.println("Servidor: " + msg);
     }
     
     public void run(){
@@ -39,6 +41,7 @@ public class Servidor extends Thread {
         while (!server.isClosed()) {
             try {
                 attend(server.accept());
+                
             } catch (IOException ex) {
                 Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -51,10 +54,18 @@ public class Servidor extends Thread {
                 Persona persona = (Persona) ois.readObject();
                 System.out.println("Datos recibidos: " + persona);
             } catch (IOException ex) {
+                System.out.println("Hola");
                 ex.printStackTrace();
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         }).start();
+    }
+    
+    public void close() throws IOException{
+        if(server != null && !server.isClosed()){
+            server.close();
+            print("Socket del servidor cerrado.");
+        }
     }
 }

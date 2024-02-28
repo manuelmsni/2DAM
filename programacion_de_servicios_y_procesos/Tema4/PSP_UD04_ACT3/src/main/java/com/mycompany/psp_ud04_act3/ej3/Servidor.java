@@ -10,6 +10,8 @@ import java.net.InetAddress;
 import java.net.MulticastSocket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -52,10 +54,10 @@ public class Servidor{
     public void run() {
         try {
             print("Ready!");
+            countdown();
             while(!socketServidor.isClosed()){
                 sendMessaje(reciveMessaje());
             }
-            close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
@@ -72,6 +74,17 @@ public class Servidor{
         String hourMsg = "[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] " + msg;
         DatagramPacket packet = new DatagramPacket(hourMsg.getBytes(), hourMsg.length(), direccionMulticast, puertoMulticast);
         socketMulticast.send(packet);
+    }
+    
+    private void countdown(){
+        new Thread(() -> {
+                try {
+                    Thread.sleep(10000);
+                } catch (InterruptedException ex) {
+                    Logger.getLogger(Servidor.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                close();
+        }).start();
     }
     
     public void close(){

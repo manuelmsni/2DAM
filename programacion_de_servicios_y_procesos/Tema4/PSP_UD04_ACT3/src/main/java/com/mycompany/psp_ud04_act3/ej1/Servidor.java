@@ -11,8 +11,6 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -30,11 +28,11 @@ public class Servidor{
             ex.printStackTrace();
         }
     }
-    
+
     private void print(String msg){
         System.out.println("Servidor: " + msg);
     }
-    
+
     public void run() {
         try {
             print("Iniciando servidor...");
@@ -49,18 +47,18 @@ public class Servidor{
                 }
                 attend(packet);
             }
-            close();
         } catch (IOException ex) {
             ex.printStackTrace();
         }
     }
-    
     private String processCommand(String command) {
         switch (command) {
             case "getdate":
                 return new SimpleDateFormat("dd/MM/yyyy").format(new Date());
             case "gethour":
                 return new SimpleDateFormat("HH:mm:ss").format(new Date());
+            case "stop":
+                close();
             default:
                 if (command.startsWith("getmayus(\"") && command.endsWith("\")")) {
                     return command.substring(10, command.length() - 2).toUpperCase();
@@ -82,7 +80,6 @@ public class Servidor{
                 DatagramPacket responsePacket = new DatagramPacket(responseData, responseData.length, address, port);
                 servidor.send(responsePacket);
                 print("Enviando respuesta: \"" + response + "\"");
-                close();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
@@ -90,7 +87,6 @@ public class Servidor{
     }
     
     public void close(){
-        
         if(servidor != null && !servidor.isClosed()){
             servidor.close();
             print("Socket del servidor cerrado.");

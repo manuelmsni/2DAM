@@ -50,7 +50,6 @@ public class Servidor{
     }
     
     public void close(){
-        
         if(servidor != null && !servidor.isClosed()){
             servidor.close();
             print("Socket del servidor cerrado.");

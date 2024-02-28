@@ -24,7 +24,7 @@ public class Cliente {
         try {
             grupo = InetAddress.getByName(groupAddress);
             socket = new MulticastSocket(puerto);
-            socket.joinGroup(grupo); // Unirse al grupo multicast
+            socket.joinGroup(grupo); 
             System.out.println("Cliente unido al grupo " + groupAddress);
             receiveMessage();
         } catch (IOException e) {
@@ -36,7 +36,7 @@ public class Cliente {
         byte[] buffer = new byte[BUFFER_SIZE];
         DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
         try {
-            socket.receive(packet); // Recibir el mensaje
+            socket.receive(packet); 
             String msg = new String(packet.getData(), 0, packet.getLength());
             System.out.println("Mensaje recibido: " + msg);
         } catch (IOException e) {
@@ -46,8 +46,8 @@ public class Cliente {
 
     public void close() {
         try {
-            socket.leaveGroup(grupo); // Salir del grupo
-            socket.close(); // Cerrar el socket
+            socket.leaveGroup(grupo);
+            socket.close(); 
             System.out.println("Cliente cerrado.");
         } catch (IOException e) {
             e.printStackTrace();
