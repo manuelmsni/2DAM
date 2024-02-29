@@ -65,6 +65,19 @@ public class MongoManager {
         return false;
     }
     
+    // filter es un documento con los criterios de búsqueda
+    // update es un documento con los campos a actualizar (los que no tenga no se actualizan)
+    private static boolean update(MongoCollection collection, Document filter, Document update){
+        try {
+            collection.updateMany(filter, new Document("$set", update));
+            return true;
+        } catch (Exception e) {
+            System.out.println("Error al actualizar documentos en la colección:");
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
     // Cerrar al final de la aplicación (con mongo no tiene sentido tras cada operación)
     public static void close(){
         if(client!=null) client.close();
