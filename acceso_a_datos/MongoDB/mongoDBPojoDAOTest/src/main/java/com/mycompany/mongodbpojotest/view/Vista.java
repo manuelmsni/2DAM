@@ -110,14 +110,14 @@ public class Vista implements Closeable {
     
     public ObjectId solicitaObjectId(String mensaje) {
         String respuesta;
-        boolean valido;
-        //do{
+       // boolean valido;
+       // do{
             respuesta = solicitaString(mensaje);
             if (respuesta == null) return null;
             respuesta = respuesta.trim();
-           // valido = ObjectId.isValid(mensaje);
-            //if (!valido) imprime("No es un id válido.");
-        //} while (!valido);
+         //   valido = ObjectId.isValid(mensaje);
+           // if (!valido) imprime("No es un id válido.");
+       // } while (!valido);
         return new ObjectId(respuesta);
     }
 

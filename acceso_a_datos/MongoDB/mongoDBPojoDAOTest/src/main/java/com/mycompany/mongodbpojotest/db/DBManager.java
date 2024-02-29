@@ -6,7 +6,6 @@ package com.mycompany.mongodbpojotest.db;
 
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
-import com.mycompany.mongodbpojotest.model.Animal;
 import com.mycompany.mongodbpojotest.model.Especie;
 import com.mycompany.mongodbpojotest.persistence.MongoClientManager;
 import com.mycompany.mongodbpojotest.util.Constants;
@@ -19,7 +18,6 @@ public class DBManager {
     private static DBManager instance;
     
     private MongoDatabase database;
-    private MongoCollection<Animal> animalesCollection;
     private MongoCollection<Especie> especiesCollection;
     
     private DBManager(){

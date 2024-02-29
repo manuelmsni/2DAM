@@ -56,8 +56,8 @@ public class AnimalDAO implements DAO<Animal> {
             Arrays.asList(
                 Aggregates.unwind("$animales"),
                 Aggregates.replaceRoot("$animales")
-                ),
-                Animal.class
+            ),
+            Animal.class
         ).into(new ArrayList<>());
     }
     
