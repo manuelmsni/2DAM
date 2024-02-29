@@ -11,7 +11,6 @@ import com.mycompany.mongodbpojotest.model.Especie;
 import com.mycompany.mongodbpojotest.view.Vista;
 import java.io.IOException;
 import java.util.logging.Logger;
-import org.bson.types.ObjectId;
 
 /**
  *
@@ -116,7 +115,13 @@ public class ControladorVista {
     }
     
     private void actualizarEspecie(){
-        
+        boolean actualizado = false;
+        Especie e = EspecieDAO.getInstance().obtener(v.solicitaObjectId("Introduce el id de la especie:"));
+        if(v.solicitaConfirmacion("¿Deseas cambiar el nombre?")){
+            e.setNombre(v.solicitaString("Introduce el nuevo nombre:"));
+            actualizado = true;
+        }
+        if(actualizado) EspecieDAO.getInstance().actualizar(e);
     }
 
     private void crearAnimal() {

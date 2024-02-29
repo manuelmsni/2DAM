@@ -18,6 +18,7 @@ import org.bson.types.ObjectId;
  * @author manuelmsni
  */
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.Updates;
@@ -25,9 +26,9 @@ import com.mycompany.mongodbpojotest.db.DBManager;
 import com.mycompany.mongodbpojotest.model.Animal;
 import com.mycompany.mongodbpojotest.model.Especie;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.bson.Document;
-import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 
 /**
@@ -51,17 +52,13 @@ public class AnimalDAO implements DAO<Animal> {
     
     @Override
     public List<Animal> obtenerTodos(){
-        List<Animal> animales = new ArrayList<>();
-        especiesCollection.find().forEach(especie -> {
-            List<Animal> listaAnimales = especie.getAnimales();
-            if (listaAnimales != null) {
-                listaAnimales.forEach(a->{
-                    a.setEspecie(especie);
-                    animales.add(a);
-                });
-            }
-        });
-        return animales;
+        return especiesCollection.aggregate(
+            Arrays.asList(
+                Aggregates.unwind("$animales"),
+                Aggregates.replaceRoot("$animales")
+                ),
+                Animal.class
+        ).into(new ArrayList<>());
     }
     
     @Override
@@ -75,22 +72,23 @@ public class AnimalDAO implements DAO<Animal> {
     
     @Override
     public Animal obtener(ObjectId id) {
-        for (Especie especie : especiesCollection.find()) {
-            for (Animal animal : especie.getAnimales()) {
-                if (animal.getId().equals(id)) {
-                    return animal;
-                }
-            }
-        }
-        return null;
+        return especiesCollection.aggregate(
+            Arrays.asList(
+                Aggregates.match(Filters.eq("animales._id", id)),
+                Aggregates.unwind("$animales"),
+                Aggregates.match(Filters.eq("animales._id", id)),
+                Aggregates.replaceRoot("$animales")
+            ),
+            Animal.class
+        ).first();
     }
     
     @Override
     public void actualizar(Animal animal) {
         especiesCollection.updateOne(
-                Filters.eq("animales._id", animal.getId()), 
-                Updates.set("animales.$[elem]", animal),
-                new UpdateOptions().arrayFilters(List.of(Filters.eq("elem._id", animal.getId())))
+            Filters.eq("animales._id", animal.getId()), 
+            Updates.set("animales.$[elem]", animal),
+            new UpdateOptions().arrayFilters(List.of(Filters.eq("elem._id", animal.getId())))
         );
     }
 

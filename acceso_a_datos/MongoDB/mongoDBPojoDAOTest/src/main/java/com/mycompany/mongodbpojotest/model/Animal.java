@@ -60,7 +60,7 @@ public class Animal {
 
     @Override
     public String toString() {
-        return "{\"id\":\"" + id.toString() + "\", \"nombre\":\"" + nombre + "\", \"especie\":\"" + especie.toString() + "\"}";
+        return "{\"id\":\"" + id.toString() + "\", \"nombre\":\"" + nombre + "\"}";
     }
     
     public static String formatearAnimales(List<Animal> animales){
