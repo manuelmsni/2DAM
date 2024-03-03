@@ -2,7 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.mongoparaexamen;
+package com.mycompany.mongodbpojotest.dao;
+
+/**
+ *
+ * @author manuelmsni
+ */
 
 import com.mongodb.ConnectionString;
 import com.mongodb.MongoClientSettings;
@@ -21,10 +26,10 @@ import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 import org.bson.types.ObjectId;
 
-public class MongoPojoManager {
+public class MongoPojoManager<T> {
     
     private static final String HOST = "localhost";
-    private static final String PORT = "57017";
+    private static final String PORT = "6969";
     private static final  String DB_URI = "mongodb://" + HOST + ":" + PORT;
     
     private static MongoPojoManager instance;
@@ -103,13 +108,13 @@ public class MongoPojoManager {
     
     // Métodos crud para clases anidadas para tipos genéricos
     
-    public static <T> List<T> getAllNested(MongoCollection<T> collection, String fieldName, Class<T> type){
+    public static <T, U> List<U> getAllNested(MongoCollection<T> collection, String fieldName, Class<U> nestedTypeClass) {
         return collection.aggregate(
             Arrays.asList(
                 Aggregates.unwind("$" + fieldName),
                 Aggregates.replaceRoot("$" + fieldName)
-                ),
-                type
+            ),
+            nestedTypeClass
         ).into(new ArrayList<>());
     }
     
@@ -117,31 +122,16 @@ public class MongoPojoManager {
         return collection.find(Filters.eq(field + "._id", idToFind)).into(new ArrayList<>());
     }
     
-    public static <T> T findNestedById(MongoCollection<T> collection, String fieldName, ObjectId idToFind, Class<T> type) {
+    public static <T, U> U findNestedById(MongoCollection<T> collection, String fieldName, ObjectId idToFind, Class<U> nestedTypeClass) {
         return collection.aggregate(
             Arrays.asList(
                 Aggregates.unwind("$" + fieldName),
                 Aggregates.match(Filters.eq(fieldName + "._id", idToFind)),
                 Aggregates.replaceRoot("$" + fieldName)
             ), 
-            type
+            nestedTypeClass
         ).first();
     }
-    public static <T> List<T> findDocumentsWithFieldGreaterThanNumber(MongoCollection<T> collection, String fieldName, Number number) {
-        List<T> documents = new ArrayList<>();
-        collection.find(Filters.gt(fieldName, number)).into(documents);
-        return documents;
-    }
-    
-    
-    /*
-        rootList.addListSelectionListener(e -> {
-            Padre selectedRoot = rootList.getSelectedValue();
-            if (selectedRoot != null) {
-                nestedModel.clear();
-                selectedRoot.getHijos().forEach(nestedModel::addElement);
-            }
-        });
-    */
     
 }
+

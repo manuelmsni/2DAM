@@ -25,7 +25,6 @@ import com.mongodb.client.model.Updates;
 import com.mycompany.mongodbpojotest.db.DBManager;
 import com.mycompany.mongodbpojotest.model.Animal;
 import com.mycompany.mongodbpojotest.model.Especie;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.bson.Document;
@@ -52,13 +51,7 @@ public class AnimalDAO implements DAO<Animal> {
     
     @Override
     public List<Animal> obtenerTodos(){
-        return especiesCollection.aggregate(
-            Arrays.asList(
-                Aggregates.unwind("$animales"),
-                Aggregates.replaceRoot("$animales")
-            ),
-            Animal.class
-        ).into(new ArrayList<>());
+        return MongoPojoManager.getAllNested(especiesCollection, "animales", Animal.class);
     }
     
     @Override
