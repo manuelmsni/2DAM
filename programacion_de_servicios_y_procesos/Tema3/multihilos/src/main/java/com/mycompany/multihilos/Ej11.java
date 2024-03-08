@@ -55,7 +55,6 @@ public class Ej11 {
                     lock.notify(); // Notifica al objeto de sincronización
                     try {
                         lock.wait();
-                        sleep(1000);
                     } catch (InterruptedException ex) {
                         System.out.println(name + " was interrupted!");
                     }
@@ -79,11 +78,6 @@ public class Ej11 {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                    }
-                    try {
-                        sleep(1000);
-                    } catch (InterruptedException ex) {
-                        System.out.println("Consumer was interrupted!");
                     }
                     System.out.println("Consumido: " + colaDeStrings.poll());
                 }
