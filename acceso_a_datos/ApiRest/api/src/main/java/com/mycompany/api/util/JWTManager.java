@@ -15,7 +15,7 @@ import java.util.Date;
 
 /**
  *
- * @author Manuelmsni
+ * @author manuelmsni
  */
 public class JWTManager {
 
