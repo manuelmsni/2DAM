@@ -22,7 +22,9 @@ public class ApplicationConfig extends Application {
     }
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(com.mycompany.api.UserResource.class);
+        resources.add(com.mycompany.api.middleware.AuthFilter.class);
+        resources.add(com.mycompany.api.resources.LoginResource.class);
+        resources.add(com.mycompany.api.resources.UserResource.class);
     }
     
 }

@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/WebServices/GenericResource.java to edit this template
  */
-package com.mycompany.api;
+package com.mycompany.api.resources;
 
 import com.mycompany.api.model.User;
 
@@ -24,7 +24,7 @@ import javax.ws.rs.core.MediaType;
  *
  * @author manuelmsni
  */
-@Path("User")
+@Path("user")
 public class UserResource {
 
     @Context
@@ -58,6 +58,7 @@ public class UserResource {
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
     public Response putJson(String content) {
+        
         return Response.ok("{\"message\":\"User updated successfully\", \"content\":" + content + "}").build();
     }
 }
