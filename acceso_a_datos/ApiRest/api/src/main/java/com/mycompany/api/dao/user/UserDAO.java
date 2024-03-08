@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.mycompany.api.repository;
+package com.mycompany.api.dao.user;
 
 import com.mycompany.api.model.User;
 
@@ -10,7 +10,7 @@ import com.mycompany.api.model.User;
  *
  * @author manuelmsni
  */
-public interface UserRepository {
+public interface UserDAO {
     /**
      * Devuelve un usuario por su id
      * @param id El id de usuario

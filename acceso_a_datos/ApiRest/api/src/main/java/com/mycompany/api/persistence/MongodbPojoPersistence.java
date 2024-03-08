@@ -26,18 +26,18 @@ import org.bson.types.ObjectId;
  *
  * @author manuelmsni
  */
-public class MongodbPojoController {
+public class MongodbPojoPersistence {
        
     private static final String HOST = "localhost";
     private static final String PORT = "57017";
     private static final  String DB_URI = "mongodb://" + HOST + ":" + PORT;
     
-    private static MongodbPojoController instance;
+    private static MongodbPojoPersistence instance;
     
     private CodecRegistry codec;
     private MongoClient client;
     
-    private MongodbPojoController(){
+    private MongodbPojoPersistence(){
         ConnectionString connectionString = new ConnectionString(DB_URI);
         client = MongoClients.create(connectionString);
         PojoCodecProvider pojoCodecProvider = PojoCodecProvider.builder().automatic(true).build();
@@ -47,8 +47,8 @@ public class MongodbPojoController {
         );
     }
     
-    public static MongodbPojoController getInstance(){
-        if(instance == null) instance = new MongodbPojoController();
+    public static MongodbPojoPersistence getInstance(){
+        if(instance == null) instance = new MongodbPojoPersistence();
         return instance;
     }
 
@@ -111,8 +111,6 @@ public class MongodbPojoController {
         collection.find(Filters.gt(fieldName, number)).into(documents);
         return documents;
     }
-    
-    // Métodos crud para clases anidadas para tipos genéricos
     
     public static <T> List<T> getAllNested(MongoCollection<T> collection, String fieldName, Class<T> type){
         return collection.aggregate(

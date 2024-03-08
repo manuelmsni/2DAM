@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/WebServices/GenericResource.java to edit this template
  */
-package com.mycompany.api.resources;
+package com.mycompany.api.endpoint;
 
 import com.mycompany.api.model.User;
 
@@ -25,7 +25,7 @@ import javax.ws.rs.core.MediaType;
  * @author manuelmsni
  */
 @Path("user")
-public class UserResource {
+public class UserEndpoint {
 
     @Context
     private UriInfo context;
@@ -33,7 +33,7 @@ public class UserResource {
     /**
      * Creates a new instance of UserResource
      */
-    public UserResource() {
+    public UserEndpoint() {
     }
 
     /**

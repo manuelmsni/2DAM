@@ -4,20 +4,27 @@
  */
 package com.mycompany.api.middleware;
 
+import javax.ws.rs.container.ResourceInfo;
+import com.mycompany.api.annotation.NoSessionRequired;
+import com.mycompany.api.dao.user.HibernateUserDAO;
+import com.mycompany.api.model.User;
+import com.mycompany.api.util.JWTManager;
+import io.jsonwebtoken.Claims;
+import javax.annotation.Priority;
+import javax.ws.rs.Priorities;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.ext.Provider;
-import com.mycompany.api.security.NoAuthenticationRequired;
 import java.io.IOException;
-import javax.ws.rs.container.ResourceInfo;
-import javax.ws.rs.core.Context;
 
 /**
  *
  * @author manuelmsni
  */
 @Provider
+@Priority(Priorities.AUTHENTICATION)
 public class SessionMiddleware implements ContainerRequestFilter {
 
     @Context
@@ -25,28 +32,41 @@ public class SessionMiddleware implements ContainerRequestFilter {
 
     @Override
     public void filter(ContainerRequestContext requestContext) throws IOException {
-        
-        // Utilizar ResourceInfo para acceder a la clase y al método del recurso
-        boolean noAuthRequired = resourceInfo.getResourceMethod().isAnnotationPresent(NoAuthenticationRequired.class)
-                                 || resourceInfo.getResourceClass().isAnnotationPresent(NoAuthenticationRequired.class);
+        boolean noAuthRequired = resourceInfo.getResourceMethod().isAnnotationPresent(NoSessionRequired.class)
+                || resourceInfo.getResourceClass().isAnnotationPresent(NoSessionRequired.class);
 
         if (noAuthRequired) {
             return;
         }
 
-        boolean sessionValid = checkSession();
-        
-        if (!sessionValid) {
+        String token = requestContext.getHeaderString("Authorization");
+
+        if (token == null || !token.startsWith("Bearer ")) {
             requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+            return;
         }
+
+        String jwtToken = token.substring(7); // Ignorar "Bearer "
+
+        User user = getSessionUser(jwtToken);
+        
+        if (user == null) {
+            requestContext.abortWith(Response.status(Response.Status.UNAUTHORIZED).build());
+            return;
+        }
+
     }
 
-    /**
-     * Comprueva si la sesión es válida
-     * @return true si es válida, false si no lo es
-     */
-    private boolean checkSession() {
-        // TODO : Implementar JWT
-        return true;
+    private User getSessionUser(String jwtToken) {
+        
+        JWTManager.verifyToken(jwtToken);
+        
+        Claims claims = JWTManager.decodeToken(jwtToken);
+        
+        int userId = Integer.parseInt(claims.getSubject());
+                
+        User user = HibernateUserDAO.getInstance().getUser(userId);
+        
+        return user;
     }
 }

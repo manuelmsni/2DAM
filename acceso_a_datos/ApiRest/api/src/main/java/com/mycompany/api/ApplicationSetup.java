@@ -11,8 +11,8 @@ import javax.ws.rs.core.Application;
  *
  * @author manuelmsni
  */
-@javax.ws.rs.ApplicationPath("webresources")
-public class ApplicationConfig extends Application {
+@javax.ws.rs.ApplicationPath("") // Entry point vacío para que no aña que añadir un path base en la url
+public class ApplicationSetup extends Application {
 
     @Override
     public Set<Class<?>> getClasses() {
@@ -22,9 +22,9 @@ public class ApplicationConfig extends Application {
     }
 
     private void addRestResourceClasses(Set<Class<?>> resources) {
+        resources.add(com.mycompany.api.endpoint.LoginEndpoint.class);
+        resources.add(com.mycompany.api.endpoint.UserEndpoint.class);
         resources.add(com.mycompany.api.middleware.SessionMiddleware.class);
-        resources.add(com.mycompany.api.resources.LoginResource.class);
-        resources.add(com.mycompany.api.resources.UserResource.class);
     }
     
 }
