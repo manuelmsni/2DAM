@@ -128,7 +128,7 @@ public class MongodbPojoController {
         return collection.find(Filters.eq(field + "._id", idToFind)).into(new ArrayList<>());
     }
     
-    public static <T> T findNestedById(MongoCollection<T> collection, String fieldName, ObjectId idToFind, Class<T> type) {
+    public static <T, U> U findNestedById(MongoCollection<T> collection, String fieldName, ObjectId idToFind, Class<U> type) {
         return collection.aggregate(
             Arrays.asList(
                 Aggregates.unwind("$" + fieldName),

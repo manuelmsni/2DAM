@@ -5,6 +5,7 @@
 package com.mycompany.api.resources;
 
 import com.mycompany.api.security.NoAuthenticationRequired;
+import java.util.List;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;

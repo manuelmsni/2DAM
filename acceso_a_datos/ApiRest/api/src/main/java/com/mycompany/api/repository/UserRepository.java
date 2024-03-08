@@ -4,14 +4,17 @@
  */
 package com.mycompany.api.repository;
 
+import com.mycompany.api.model.User;
+
 /**
  *
  * @author manuelmsni
  */
-public abstract class UserRepository {
+public interface UserRepository {
     /**
      * Devuelve un usuario por su id
      * @param id El id de usuario
+     * @return El usuario con dicha id
      */
-    public abstract void getUser(int id);
+    public User getUser(int id);
 }

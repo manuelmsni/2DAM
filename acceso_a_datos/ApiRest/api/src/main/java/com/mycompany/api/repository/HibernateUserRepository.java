@@ -4,18 +4,20 @@
  */
 package com.mycompany.api.repository;
 
+import com.mycompany.api.model.User;
+
 /**
  *
  * @author manuelmsni
  */
-public class HibernateUserRepository extends UserRepository{
+public class HibernateUserRepository implements UserRepository{
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void getUser(int id) {
-        
+    public User getUser(int id) {
+        return null;
     }
     
 }

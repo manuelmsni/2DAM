@@ -18,7 +18,7 @@ import javax.ws.rs.core.Context;
  * @author manuelmsni
  */
 @Provider
-public class AuthFilter implements ContainerRequestFilter {
+public class SessionMiddleware implements ContainerRequestFilter {
 
     @Context
     private ResourceInfo resourceInfo;

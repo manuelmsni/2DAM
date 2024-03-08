@@ -48,7 +48,6 @@ public class Ej1 {
                     out.writeUTF("SERVER ECHO: " + mensaje);
 
                     sc.close();
-                    
                 }
             } catch (IOException ex) {
                 ex.printStackTrace();

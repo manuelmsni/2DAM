@@ -59,6 +59,8 @@ public class UserResource {
     @Produces(MediaType.APPLICATION_JSON)
     public Response putJson(String content) {
         
+        // TODO : Insertar usuario
+        
         return Response.ok("{\"message\":\"User updated successfully\", \"content\":" + content + "}").build();
     }
 }
